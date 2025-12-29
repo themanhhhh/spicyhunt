@@ -1,7 +1,0 @@
-{
-    "buildCommand": "cd project4 && npm install && npm run build",
-    "outputDirectory": "project4/.next",
-    "installCommand": "cd project4 && npm install",
-    "framework": "nextjs",
-    "ignoreCommand": ""
-}
