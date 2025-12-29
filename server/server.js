@@ -7,10 +7,23 @@ console.log('Starting server...');
 
 // Load environment variables
 dotenv.config();
-console.log('Environment loaded, PORT:', process.env.PORT);
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+// Render uses port 10000 by default
+const PORT = process.env.PORT || 10000;
+
+console.log('Environment loaded, PORT:', PORT);
+console.log('NODE_ENV:', process.env.NODE_ENV || 'development');
+
+// Handle uncaught exceptions to prevent crash
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err.message);
+  console.error(err.stack);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
 // Middleware
 app.use(cors({
@@ -45,7 +58,17 @@ app.get('/health', (req, res) => {
 
 // Start server immediately
 const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`==> Server is live on port ${PORT}`);
+  console.log(`==> Listening on 0.0.0.0:${PORT}`);
+});
+
+// Render recommended: increase timeouts to prevent connection issues
+server.keepAliveTimeout = 120000; // 120 seconds
+server.headersTimeout = 120000; // 120 seconds
+
+// Handle server errors
+server.on('error', (err) => {
+  console.error('Server error:', err.message);
 });
 
 // Then load routes and connect to DB asynchronously
@@ -85,8 +108,16 @@ async function initializeApp() {
     // Connect to MongoDB
     console.log('Connecting to MongoDB...');
     if (process.env.MONGO_URI) {
-      await mongoose.connect(process.env.MONGO_URI);
-      console.log('MongoDB Connected:', mongoose.connection.host);
+      try {
+        await mongoose.connect(process.env.MONGO_URI, {
+          serverSelectionTimeoutMS: 10000,
+          socketTimeoutMS: 45000,
+        });
+        console.log('MongoDB Connected:', mongoose.connection.host);
+      } catch (dbError) {
+        console.error('MongoDB connection failed:', dbError.message);
+        console.log('Server continues running without database connection');
+      }
     } else {
       console.log('MONGO_URI not set, skipping database connection');
     }
