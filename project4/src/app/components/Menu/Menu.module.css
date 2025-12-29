@@ -1,0 +1,159 @@
+.Menu {
+    width: 100%;
+    margin: 0 auto;
+    padding: 60px 0;
+    background-color: #1a1a1a;
+}
+
+/* Header Section */
+.Menu_header {
+    text-align: center;
+    padding: 40px 20px;
+    background: transparent;
+}
+
+.Menu_subtitle {
+    color: var(--icons-color);
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.Menu_title {
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--primary-color);
+    line-height: 1.2;
+    margin-bottom: 40px;
+}
+
+.Menu_title_highlight {
+    color: var(--icons-color);
+}
+
+/* Menu Items Section */
+.Menu_items_section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.Menu_items_grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin: 40px 0;
+}
+
+.Menu_empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--font--color);
+    font-style: italic;
+    font-size: 18px;
+}
+
+/* Route Section */
+.Menu_Route {
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 60px;
+    background: #1a1a1a;
+    border-radius: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.Menu_Route p {
+    font-size: 18px;
+    color: var(--font--color);
+    margin: 0;
+}
+
+.Menu_Route a {
+    color: var(--icons-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.Menu_Route a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* Loading and Error States */
+.loading, .error {
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 18px;
+}
+
+.loading {
+    color: var(--font--color);
+}
+
+.error {
+    color: #ff4444;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .Menu_items_section {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .Menu_items_grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        max-width: 600px;
+        margin: 40px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .Menu_title {
+        font-size: 36px;
+    }
+    
+    .Menu_items_grid {
+        gap: 1.5rem;
+        margin: 30px auto;
+    }
+    
+    .Menu_items_section {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Menu_title {
+        font-size: 28px;
+    }
+    
+    .Menu_subtitle {
+        font-size: 12px;
+    }
+    
+    .Menu_items_grid {
+        gap: 1rem;
+        margin: 20px auto;
+    }
+    
+    .Menu_Route {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 30px 15px;
+    }
+    
+    .Menu_Route p {
+        font-size: 16px;
+    }
+}
+

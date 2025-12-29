@@ -1,0 +1,23 @@
+.menuCard{
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
+.menuCard_content{
+    margin-left: 150px;
+    margin-top: 20px;
+}
+
+.menuCard_content p{
+    color: var(--icons-color);
+    font-weight: 700;
+}
+
+
+.menuCard_box{
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 2rem;
+}

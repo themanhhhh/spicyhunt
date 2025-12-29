@@ -1,0 +1,50 @@
+
+.button {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--icons-color);
+    padding: 1rem 2rem;
+    border: 1px solid var(--icons-color);
+    border-radius: 2rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all .2s ease-in;
+}
+.btnText {
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    transition: 0.5s;
+    color: azure;
+  }
+.button .icon {
+  position: relative;
+  color: #262626;
+  transition: 0.5s;
+  z-index: 3;
+}
+
+.button:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: azure; 
+  transition: 0.5s;
+  z-index: 2;
+}
+
+.button:hover:before {
+  top: 0;
+}
+
+.button:hover .icon {
+  transform: rotateY(360deg);
+  color: #fff;
+}
+.button:hover .btnText {
+    color: black;
+  }

@@ -1,0 +1,115 @@
+.MenuCard {
+    width: 500px;
+    height: 150px;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.MenuCard_left {
+    display: flex;
+    align-items: center;
+}
+.MenuCard_right {
+    width: 500px;
+    display: grid;
+    grid-template-rows: 25% 75%;
+}
+.MenuCard_right_name_price{
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr;
+}
+.MenuCard_description {
+    color: var(--font--color);
+    margin-top: 30px;
+}
+.MenuCard_right_price_box {
+    margin-left: 20px;
+    width: 100px;
+    height: 40px;
+    border-radius: 5rem;
+    background-color: var(--icons-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.MenuCard_price{
+   width: 100%;
+}
+.MenuCard_right_price_line{
+    display: grid;
+    grid-template-rows: 50% 50%;
+}
+.MenuCard_right_price_line_up{
+    border-bottom: 1px solid var(--icons-color);
+}
+
+.MenuCard_img{
+    object-fit: cover;
+    border-radius: 50%;
+    transition: opacity 0.3s ease;
+}
+
+/* Hiệu ứng mờ ảnh khi hover */
+.MenuCard_left:hover .MenuCard_img {
+    opacity: 0.6;
+}
+
+/* === CSS CHỈ CHO CÁC NÚT HOVER - KHÔNG ẢNH HƯỞNG ĐẾN STYLE GỐC === */
+
+/* Container cho các nút action */
+.action_buttons {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+/* Nút + thêm vào giỏ hàng */
+.add_to_cart_btn {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.add_to_cart_btn:hover {
+    background-color: var(--icons-color);
+    transform: scale(1.1);
+    border-color: white;
+}
+
+/* Nút ... xem chi tiết */
+.view_details_btn {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.view_details_btn:hover {
+    background-color: var(--icons-color);
+    transform: scale(1.1);
+    border-color: white;
+}

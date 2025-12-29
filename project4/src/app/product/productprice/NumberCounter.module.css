@@ -1,0 +1,119 @@
+.numberCounter {
+  display: flex;
+  align-items: baseline;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+.currency {
+  font-size: 1.4rem;
+  margin-left: 0.6rem;
+  
+  color: #ffffff;
+}
+
+.digit {
+  display: inline-block;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center bottom;
+}
+
+.separator {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  margin: 0 0.1rem;
+}
+
+/* Animation when counter is updating */
+.animating .digit {
+  animation: digitPulse 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes digitPulse {
+  0% {
+    transform: scale(1) rotateX(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1) rotateX(180deg);
+    opacity: 0.7;
+    color: var(--icons-color);
+  }
+  100% {
+    transform: scale(1) rotateX(360deg);
+    opacity: 1;
+  }
+}
+
+/* Enhanced version with more sophisticated animation */
+.numberCounter.enhanced {
+  perspective: 1000px;
+}
+
+.enhanced .digit {
+  transform-style: preserve-3d;
+  animation-duration: 0.8s;
+}
+
+@keyframes digitFlip {
+  0% {
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: rotateY(90deg) scale(0.9);
+    opacity: 0.5;
+  }
+  75% {
+    transform: rotateY(270deg) scale(1.05);
+    opacity: 0.8;
+    color: var(--icons-color);
+  }
+  100% {
+    transform: rotateY(360deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Glowing effect on animation */
+.animating {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+/* Hover effect */
+.numberCounter:hover .digit {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .numberCounter {
+    font-size: 1.25rem;
+  }
+  
+  .currency {
+    font-size: 1rem;
+  }
+  
+  .separator {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .numberCounter {
+    font-size: 1rem;
+  }
+  
+  .currency {
+    font-size: 0.9rem;
+  }
+  
+  .separator {
+    font-size: 0.9rem;
+  }
+} 

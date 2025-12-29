@@ -1,0 +1,81 @@
+.Banner{
+  width: 100%;
+  height: 70vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.Banner_img{
+    z-index: 1;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.bannerContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+}
+
+.breadcrumbs a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+  color: #e6e6a2;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+}

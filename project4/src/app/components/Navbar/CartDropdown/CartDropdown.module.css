@@ -1,0 +1,154 @@
+.cartDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 350px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  z-index: 99999999;
+}
+
+.cartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.cartHeader h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.cartHeader span {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.cartItems {
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 1rem 0;
+}
+
+.emptyCart {
+  text-align: center;
+  padding: 2rem 0;
+  color: #666;
+}
+
+.cartItem {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.cartItem:last-child {
+  border-bottom: none;
+}
+
+.itemImage {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.itemDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.itemDetails h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.itemDetails p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: #ff4444;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.removeButton:hover {
+  background: #fff5f5;
+}
+
+.cartTotal {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-top: 1px solid #eee;
+  font-weight: 600;
+  color: #333;
+}
+
+.cartActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.viewCartButton,
+.checkoutButton {
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.viewCartButton {
+  background: #f3f4f6;
+  color: #333;
+}
+
+.viewCartButton:hover {
+  background: #e5e7eb;
+}
+
+.checkoutButton {
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+  background: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.checkoutButton:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.checkoutButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+} 

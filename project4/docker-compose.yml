@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_PINATA_API_KEY=5b9afb41a6a64bcad1f7
+      - NEXT_PUBLIC_PINATA_SECRET_API_KEY=080a3e13f1c8a9527e3ff8faaeb9871b5df53900099d88edba2259f98be701ec
+    restart: always 

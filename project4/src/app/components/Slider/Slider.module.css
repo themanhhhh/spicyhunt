@@ -1,0 +1,213 @@
+.slider {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #000; /* Tạm màu nền đen */
+    color: #fff;
+    min-height: 600px;
+  }
+  
+  .slider_box {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+  }
+  
+  .Story_box_title p {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+  }
+  
+  .Story_box_title h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  /* Khung chứa toàn bộ track */
+  .slider_container {
+    width: 100%;
+    overflow: hidden; /* Ẩn phần bị tràn */
+    position: relative;
+    /* Chiều cao tuỳ vào nội dung slide */
+  }
+  
+  
+  .slider_track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .slider_item {
+    flex: 0 0 100%;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+  
+
+  .navigation {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none; /* Để icon có thể bấm được, ta bật pointer-events riêng cho icon */
+  }
+  
+  .navigation svg {
+    pointer-events: auto;
+    cursor: pointer;
+    font-size: 2rem;
+    opacity: 0.8;
+    margin: 0 20px;
+    transition: 0.3s;
+  }
+  
+  .navigation svg:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  .hightlight{
+    color: var(--icons-color);
+  }
+  
+  .slider_bg_img {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.8;
+  }
+  
+  .slider_bg_overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 2;
+  }
+  
+  .slider_content_centered {
+    position: relative;
+    z-index: 3;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 100px 20px 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 600px;
+  }
+  
+  .slider_title {
+    font-size: 2.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  
+  .slider_quote_box {
+    margin: 40px 0 30px 0;
+    position: relative;
+    max-width: 800px;
+    background: transparent;
+  }
+  
+  .slider_quote_icon {
+    font-size: 3.5rem;
+    color: var(--icons-color);
+    opacity: 0.7;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .slider_quote_text {
+    font-size: 1.35rem;
+    color: #e2e8f0;
+    font-weight: 400;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+  
+  .slider_user_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .slider_user_avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--icons-color);
+    margin-bottom: 10px;
+  }
+  
+  .slider_user_name {
+    color: #e2c275;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  
+  .slider_nav_left, .slider_nav_right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.12);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 4;
+    font-size: 2rem;
+    color: #fff;
+    transition: background 0.2s, color 0.2s;
+  }
+  .slider_nav_left { left: -30px; }
+  .slider_nav_right { right: -30px; }
+  .slider_nav_left:hover, .slider_nav_right:hover {
+    background: var(--icons-color);
+    color: #222;
+  }
+  
+  @media (max-width: 900px) {
+    .slider_content_centered {
+      padding: 60px 10px 40px 10px;
+      min-height: 400px;
+    }
+    .slider_title {
+      font-size: 2rem;
+    }
+    .slider_quote_text {
+      
+      font-size: 28px;
+      color: #AEB0B4;
+    }
+    .slider_nav_left, .slider_nav_right {
+      width: 38px;
+      height: 38px;
+      font-size: 1.5rem;
+      left: 20px;
+      right: 20px;
+    }
+  }
+  

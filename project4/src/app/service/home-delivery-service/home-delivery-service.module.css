@@ -1,0 +1,322 @@
+/* Page Container */
+.pageContainer {
+    background: var(--main-bg-color);
+    min-height: calc(100vh - 200px);
+}
+
+.pageLayout {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    align-items: start;
+}
+
+.sidebar {
+    position: sticky;
+    top: 2rem;
+}
+
+.mainContent {
+    background: var(--main-bg-color);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    border: 1px solid #333;
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #333;
+}
+
+.breadcrumbItem {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--font--color);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.breadcrumbItem:hover {
+    color: var(--icons-color);
+}
+
+.breadcrumbItem svg {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+}
+
+.breadcrumbSeparator {
+    margin: 0 0.75rem;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+.breadcrumbCurrent {
+    color: var(--icons-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Page Header */
+.pageHeader {
+    margin-bottom: 2rem;
+}
+
+.pageTitle {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--icons-color);
+    margin: 0;
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+/* Service Image */
+.serviceImage {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.serviceImg {
+    width: 100%;
+    height: auto;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.serviceImg:hover {
+    transform: scale(1.02);
+}
+
+/* Service Description */
+.serviceDescription {
+    margin-bottom: 3rem;
+}
+
+.descriptionText {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--font--color);
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.descriptionText:last-child {
+    margin-bottom: 0;
+}
+
+/* Key Features Section */
+.keyFeaturesSection {
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+    border-top: 1px solid #333;
+}
+
+.sectionTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--icons-color);
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.featuresIntro {
+    margin-bottom: 2.5rem;
+}
+
+.featuresIntro p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--font--color);
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.featuresIntro p:last-child {
+    margin-bottom: 0;
+}
+
+.featuresList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.featureItem {
+    display: flex;
+    align-items: flex-start;
+    padding: 1.5rem;
+    background: #111;
+    border-radius: 10px;
+    border-left: 4px solid var(--icons-color);
+    transition: all 0.3s ease;
+    border: 1px solid #333;
+}
+
+.featureItem:hover {
+    background: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-2);
+    border-color: var(--icons-color);
+}
+
+.featureIcon {
+    font-size: 1.5rem;
+    color: var(--icons-color);
+    margin-right: 1rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+}
+
+.featureText {
+    font-size: 1rem;
+    color: var(--font--color);
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+/* FAQ Section */
+.faqSection {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #333;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .pageLayout {
+        grid-template-columns: 280px 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+    
+    .mainContent {
+        padding: 1.5rem;
+    }
+    
+    .pageTitle {
+        font-size: 2rem;
+    }
+    
+    .sectionTitle {
+        font-size: 1.7rem;
+    }
+    
+    .serviceImg {
+        max-width: 100%;
+    }
+    
+    .featuresList {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .pageLayout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .sidebar {
+        position: static;
+        order: 1;
+    }
+    
+    .mainContent {
+        order: 2;
+        padding: 1rem;
+    }
+    
+    .pageTitle {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+    
+    .sectionTitle {
+        font-size: 1.5rem;
+    }
+    
+    .serviceImg {
+        border-radius: 6px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .breadcrumb {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .breadcrumbItem svg {
+        display: none;
+    }
+    
+    .descriptionText {
+        font-size: 1rem;
+        text-align: left;
+    }
+    
+    .featuresIntro p {
+        font-size: 0.95rem;
+        text-align: left;
+    }
+    
+    .featureItem {
+        padding: 1rem;
+    }
+    
+    .featureText {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .pageContainer {
+        background: white;
+    }
+    
+    .mainContent {
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0.5rem;
+    }
+    
+    .pageTitle {
+        font-size: 1.5rem;
+    }
+    
+    .sectionTitle {
+        font-size: 1.3rem;
+    }
+    
+    .breadcrumb {
+        margin-bottom: 1rem;
+        padding: 0.5rem 0;
+    }
+    
+    .breadcrumbItem,
+    .breadcrumbCurrent {
+        font-size: 0.8rem;
+    }
+    
+    .keyFeaturesSection {
+        padding: 1rem 0;
+    }
+    
+    .faqSection {
+        margin-top: 2rem;
+        padding-top: 1rem;
+    }
+}

@@ -1,0 +1,574 @@
+.addressManager {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin: 0.5rem 0 0 0;
+  font-size: 1rem;
+}
+
+.addButton {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.addButton:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.addButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Form Container */
+.formContainer {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.formHeader {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.formHeader h3 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+  font-size: 1.2rem;
+}
+
+.closeButton:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.formContent {
+  padding: 2rem;
+}
+
+/* Input Groups */
+.inputGroup {
+  margin-bottom: 1.5rem;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #374151;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+  background: white;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Label Selector */
+.labelSelector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.radioLabel {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.radioLabel input[type="radio"] {
+  display: none;
+}
+
+.radioCustom {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  transition: all 0.2s;
+  font-weight: 500;
+  color: #6b7280;
+  background: white;
+}
+
+.radioLabel input[type="radio"]:checked + .radioCustom {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.radioCustom:hover {
+  border-color: #9ca3af;
+}
+
+/* Checkbox */
+.checkboxGroup {
+  margin: 1.5rem 0;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: #374151;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  display: none;
+}
+
+.checkboxCustom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  position: relative;
+  transition: all 0.2s;
+  background: white;
+}
+
+.checkboxLabel input[type="checkbox"]:checked + .checkboxCustom {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.checkboxLabel input[type="checkbox"]:checked + .checkboxCustom::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Selected Address Info */
+.selectedAddressInfo {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.selectedAddressInfo h4 {
+  margin: 0 0 0.5rem 0;
+  color: #0369a1;
+  font-size: 0.9rem;
+}
+
+.selectedAddressInfo p {
+  margin: 0.25rem 0;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+/* Form Actions */
+.formActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.cancelButton {
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.cancelButton:hover {
+  background: #e5e7eb;
+}
+
+.saveButton {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.saveButton:hover:not(:disabled) {
+  background: #059669;
+}
+
+.saveButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Address List */
+.addressList {
+  margin-top: 2rem;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 3rem;
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  color: #d1d5db;
+  margin-bottom: 1rem;
+}
+
+.emptyState h3 {
+  margin: 0 0 0.5rem 0;
+  color: #374151;
+  font-size: 1.25rem;
+}
+
+.emptyState p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Address Grid */
+.addressGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.addressCard {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.addressCard:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.defaultAddress {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+.addressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.addressLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.defaultBadge {
+  background: #10b981;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.addressContent {
+  margin-bottom: 1.5rem;
+}
+
+.addressText {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1rem;
+}
+
+.addressSecondary {
+  margin: 0.25rem 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.fullAddress {
+  margin: 0.5rem 0 0 0;
+  color: #9ca3af;
+  font-size: 0.8rem;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.addressActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s;
+}
+
+.actionButton:hover {
+  background: #e5e7eb;
+}
+
+.actionButton.deleteButton {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.actionButton.deleteButton:hover {
+  background: #fee2e2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .addressManager {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .addButton {
+    align-self: flex-start;
+  }
+
+  .formContent {
+    padding: 1.5rem;
+  }
+
+  .inputRow {
+    grid-template-columns: 1fr;
+  }
+
+  .labelSelector {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+  }
+
+  .addressGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .addressActions {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .addressManager {
+    padding: 0.5rem;
+  }
+
+  .formHeader {
+    padding: 1rem;
+  }
+
+  .formContent {
+    padding: 1rem;
+  }
+
+  .header h2 {
+    font-size: 1.5rem;
+  }
+
+  .addressCard {
+    padding: 1rem;
+  }
+} 
+
+/* Toast Confirmation Styles */
+.toastConfirm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 5px;
+}
+
+.toastMessage {
+  text-align: left;
+}
+
+.toastMessage strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+  font-size: 16px;
+}
+
+.toastMessage p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.toastActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.toastCancel {
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.toastCancel:hover {
+  background: #e5e7eb;
+}
+
+.toastConfirmBtn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.toastConfirmBtn:hover {
+  background: #dc2626;
+} 

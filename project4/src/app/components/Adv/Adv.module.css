@@ -1,0 +1,147 @@
+
+.Adv{
+    width: 100%;
+    margin-top: 10rem;
+    margin-bottom: 7rem;
+    justify-items: center;
+}
+
+.Adv_box{
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 40px;
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    gap: 5rem;
+    align-items: center;
+    border-bottom: 0.3px solid var(--icons-color);
+}
+.Adv_box_left{
+    display: grid;
+    grid-template-rows: 5% 25% 25% 30% 15%;
+}
+
+.Adv_box_left h1{
+    color: azure;
+    font-size: 2.5rem;
+    line-height: 1.22;
+}
+
+.Adv_box_left_hightlight{
+    color: var(--icons-color);
+}
+.Adv_box_left_span{
+    color: var(--icons-color);
+}
+
+.Adv_box_left p{
+    
+    font-size: 1.0rem;
+    margin-top: 1.5rem;
+    color: var(--font--color);
+}
+
+.Adv_box_left_btn{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+.Adv_box_right_ellipse{
+    position: relative;
+    width: 100%;   
+    height: 100%;  
+    overflow: hidden;       
+}
+
+.Adv_box_right_ellipse_image{
+    width: 100%;
+  height: 100%;
+  object-fit: cover; 
+}
+.Adv_box_left_icon{
+    color: var(--icons-color);
+    margin-right: 5px;
+}
+.Adv_box_right_circle{
+    position: absolute;
+    width: 100px;    
+    height: 100px;
+    border-radius: 50%;  
+    overflow: hidden;    
+    border: 4px solid #fff; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    top: 215%;  
+    right: 1150px;
+    z-index: 111111;
+}
+.Adv_box_right_small_image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.Adv_box_left_information{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    
+}
+
+.Adv_box_left_information_box{
+    display: grid;
+    grid-template-rows: 70% 30%;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--icons-color);
+}
+
+.Adv_box_left_information_box h4{
+    font-size: 1.0rem;
+    color: white;
+}
+
+.Adv_box_left_information_box_img1{
+    margin-left: 20px;
+}
+.Adv_box_left_information_box_img2{
+    margin-left: 35px;
+}
+.Adv_box_left_information_box_img3{
+    margin-left: 20px;
+}
+
+.Adv_achiv{
+    width: 80%;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+.Adv_achiv_box{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    align-items: center;
+
+}
+
+.Adv_achiv_box_left{
+    
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid var(--icons-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.Adv_achiv_box_left_icon{
+   
+    height: 30px;
+    width: 30px;
+    color: var(--icons-color);
+}
+
+.Adv_achiv_box_right p{
+    color: var(--font--color);
+}
+  

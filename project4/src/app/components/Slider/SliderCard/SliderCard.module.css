@@ -1,0 +1,89 @@
+/* 
+   SliderCard.module.css
+   Ví dụ CSS mô phỏng testimonial với dấu ngoặc kép,
+   phần text ở giữa, ảnh và tên người dùng bên dưới.
+*/
+
+/* --------- Phần wrapper chính cho toàn bộ card --------- */
+.sliderCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  
+    /* Màu nền xám đen trong suốt nhẹ, tuỳ ý bạn */
+    background: rgba(0, 0, 0, 0.5);
+    /* Hoặc nếu muốn màu trơn: background: #1f1f1f; */
+  
+    /* Hiệu ứng mờ nền nếu muốn (chỉ hoạt động khi background rgba) */
+    backdrop-filter: blur(4px);
+  
+    border-radius: 10px;
+    padding: 40px 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+  }
+  
+  /* --------- Khối chứa phần text testimonial --------- */
+  .sliderCard_box {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  /* --------- Phần ảnh và tên user --------- */
+  .sliderCard_box_img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .sliderCard_box_img_img {
+    /* Ảnh tròn */
+    border-radius: 50%;
+    object-fit: cover;
+    width: 80px; 
+    height: 80px;
+    margin-bottom: 10px;
+  }
+  
+  .sliderCard_box_img h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+  }
+  
+  .leftQuote,
+  .rightQuote {
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.2); 
+    font-weight: bold;
+    position: absolute;
+  }
+  
+  .leftQuote {
+    left: -30px;
+    top: -10px;
+  }
+  
+  .rightQuote {
+    right: -30px;
+    bottom: -10px;
+  }
+  
+  .testimonialText {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    font-style: italic;
+    color: var(--font--color);
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+  

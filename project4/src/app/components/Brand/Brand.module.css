@@ -1,0 +1,146 @@
+
+.Brand{
+    width: 100%;
+    margin-top: 10rem;
+    margin-bottom: 7rem;
+}
+
+.Brand_box{
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 40px;
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    gap: 5rem;
+    align-items: center;
+    border-bottom: 1px solid var(--icons-color);
+}
+
+.Brand_box_left h1{
+    color: azure;
+    font-size: 3.3rem;
+    line-height: 1.22;
+}
+
+.Brand_box_left_hightlight{
+    color: var(--icons-color);
+}
+.Brand_box_left_span{
+    color: var(--icons-color);
+}
+
+.Brand_box_left p{
+    
+    font-size: 1.0rem;
+    margin-top: 0.5rem;
+}
+
+.Brand_box_left_btn{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+.Brand_box_right_ellipse{
+    position: relative;
+    width: 460px;   
+    height: 750px;  
+    border-radius: 50% / 30%; 
+    overflow: hidden;       
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); 
+}
+
+.Brand_box_right_ellipse_image{
+    width: 100%;
+  height: 100%;
+  object-fit: cover; 
+}
+.Brand_box_left_icon{
+    color: var(--icons-color);
+    margin-right: 5px;
+}
+.Brand_box_right_circle{
+    position: absolute;
+    width: 150px;    
+    height: 150px;
+    border-radius: 50%;  
+    overflow: hidden;    
+    border: 7px solid #fff; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    top: 215%;  
+    right: 1430px;
+    z-index: 11;
+}
+.Brand_box_right_small_image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.aboutus{
+    top: 150%;
+}
+
+.Daily_box_right_description{
+    padding: 25px;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--icons-color);
+    color: white;
+    border-radius: 15px;
+    width: 170px;
+    height: 150px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-family: Arial, sans-serif;
+    transition: all .2s ease-in;
+    bottom: 650px;
+        /* display: flex; */
+    align-items: center;
+}
+
+.Daily_box_right_description p{
+   margin: 0 auto;
+    position: relative;
+    z-index: 3;
+    /* font-size: 1.5rem; */
+    font-weight: 600;
+}
+
+.Daily_box_right_description span{
+    font-weight: 700;
+    font-size: 1.3rem;
+    position: relative;
+    z-index: 3;
+}
+
+
+.Daily_box_right_description:hover .star{
+    color: black;
+}
+
+.Daily_box_right_description:hover
+{
+    color: black;
+}
+.Daily_box_right_description::before{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: azure; 
+    transition: 0.5s;
+    z-index: 2;
+}
+
+.Daily_box_right_description:hover::before{
+    top: 0%;
+}
+
+.icon{
+    font-size: 3rem;
+}
+
+
+  

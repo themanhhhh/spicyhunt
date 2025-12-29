@@ -1,0 +1,95 @@
+.user_box_back{
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.user_box_back :hover{
+    color: var(--icons-color);
+}
+
+.user_box_input{
+    border: 1px solid var(--icons-color);
+    padding: 2.5rem;
+    border-radius: 1rem;
+    margin-top: 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+}
+
+.user_box_input_box{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.user_box_input_box:last-of-type{
+    margin-bottom: 0;
+}
+
+.user_box_input_box label{
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    display: block;
+}
+
+.user_box_input_box input{
+    color: var(--text);
+    padding: 1rem 1.2rem;
+    border-radius: 0.8rem;
+    outline: 0;
+    border: 1px solid var(--icons-color);
+    background-color: rgba(255, 255, 255, 0.05);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.user_box_input_box input:focus {
+    border-color: var(--icons-color);
+    box-shadow: 0 0 0 3px rgba(93, 87, 201, 0.15);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.user_box_input_box input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.user_box_input_box input::placeholder {
+    color: var(--textSoft);
+    opacity: 0.7;
+}
+
+.button{
+    width: 100%;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+@media screen and (max-width: 35em) {
+    .user_box_input{
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .user_box_input_box{
+        margin-bottom: 1.2rem;
+    }
+    
+    .user_box_input_box label{
+        font-size: 1rem;
+    }
+    
+    .user_box_input_box input{
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .button{
+        margin-top: 1.5rem;
+        font-size: 1rem;
+    }
+} 
