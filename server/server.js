@@ -26,14 +26,12 @@ app.use(cors({
     'http://localhost:3000',
     'http://localhost:3001',
     'https://spicyhunt.vercel.app',
+    'https://spicyhunt-yofh-jqb7m8emx-themanhhhhs-projects.vercel.app',
     /\.vercel\.app$/  // Allow all Vercel preview deployments
   ],
   credentials: true
 }));
 app.use(express.json());
-
-// Connect to MongoDB
-connectDB();
 
 // API routes
 app.use('/api/auth', authRoutes);
@@ -55,6 +53,17 @@ app.get('/', (req, res) => {
   res.send('SpicyHunt API is running...');
 });
 
+// Health check endpoint for Render
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Start server first, then connect to MongoDB
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+
+  // Connect to MongoDB after server starts
+  connectDB().catch(err => {
+    console.error('Failed to connect to MongoDB:', err.message);
+  });
 });
