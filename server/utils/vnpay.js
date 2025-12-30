@@ -140,19 +140,22 @@ export const parseResponseCode = (responseCode) => {
 };
 
 /**
- * Format date for VNPay (yyyyMMddHHmmss)
+ * Format date for VNPay (yyyyMMddHHmmss) in Vietnam timezone (UTC+7)
  * @param {Date} date - Date object
  * @returns {string} - Formatted date string
  */
 const formatDate = (date) => {
     const pad = (n) => n.toString().padStart(2, '0');
 
-    return date.getFullYear().toString() +
-        pad(date.getMonth() + 1) +
-        pad(date.getDate()) +
-        pad(date.getHours()) +
-        pad(date.getMinutes()) +
-        pad(date.getSeconds());
+    // Convert to Vietnam timezone (UTC+7)
+    const vnDate = new Date(date.getTime() + (7 * 60 * 60 * 1000));
+
+    return vnDate.getUTCFullYear().toString() +
+        pad(vnDate.getUTCMonth() + 1) +
+        pad(vnDate.getUTCDate()) +
+        pad(vnDate.getUTCHours()) +
+        pad(vnDate.getUTCMinutes()) +
+        pad(vnDate.getUTCSeconds());
 };
 
 /**
