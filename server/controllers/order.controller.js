@@ -185,27 +185,48 @@ export const removeFoodFromOrder = async (req, res) => {
     }
 };
 
-// Update food in order (quantity)
+// Update food in order (quantity) - supports both single item and array format
 export const updateFoodOrder = async (req, res) => {
     try {
-        const { foodId, quantity } = req.body;
-
         const order = await Order.findOne({ _id: req.params.id, userId: req.userId });
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        // Find and update the item
-        const itemIndex = order.items.findIndex(item => item.foodId.toString() === foodId);
-        if (itemIndex === -1) {
-            return res.status(404).json({ message: 'Food item not found in order' });
+        // Support both formats:
+        // 1. Single item: { foodId, quantity }
+        // 2. Array format: { foodInfo: [{ foodId, quantity }] }
+        let itemsToUpdate = [];
+
+        if (req.body.foodInfo && Array.isArray(req.body.foodInfo)) {
+            // Array format from frontend
+            itemsToUpdate = req.body.foodInfo;
+        } else if (req.body.foodId) {
+            // Single item format
+            itemsToUpdate = [{ foodId: req.body.foodId, quantity: req.body.quantity }];
+        } else {
+            return res.status(400).json({ message: 'foodId or foodInfo array is required' });
         }
 
-        if (quantity <= 0) {
-            // Remove item if quantity is 0 or less
-            order.items.splice(itemIndex, 1);
-        } else {
-            order.items[itemIndex].quantity = quantity;
+        // Process each item
+        for (const updateItem of itemsToUpdate) {
+            const { foodId, quantity } = updateItem;
+
+            // Find the item in order
+            const itemIndex = order.items.findIndex(item => item.foodId.toString() === foodId);
+
+            if (itemIndex === -1) {
+                // Item not found in order - skip or log warning
+                console.warn(`Food item ${foodId} not found in order ${order._id}`);
+                continue;
+            }
+
+            if (quantity <= 0) {
+                // Remove item if quantity is 0 or less
+                order.items.splice(itemIndex, 1);
+            } else {
+                order.items[itemIndex].quantity = quantity;
+            }
         }
 
         // Recalculate total
@@ -214,7 +235,7 @@ export const updateFoodOrder = async (req, res) => {
             totalAmount += item.price * item.quantity;
         }
         order.totalAmount = totalAmount;
-        order.finalAmount = totalAmount - order.discountAmount;
+        order.finalAmount = totalAmount - (order.discountAmount || 0);
 
         await order.save();
         await order.populate('items.foodId', 'name nameEN price imgUrl');
