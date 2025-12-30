@@ -713,8 +713,8 @@ const PaymentPage = () => {
         return;
       }
 
-      // Kiểm tra response
-      if (paymentResponse.code === '00' && paymentResponse.paymentUrl) {
+      // Kiểm tra response - backend trả về paymentUrl trực tiếp, không có code
+      if (paymentResponse.paymentUrl) {
         toast.success('Tạo thanh toán thành công! Đang chuyển hướng...', {
           id: "create-payment",
           duration: 2000,
