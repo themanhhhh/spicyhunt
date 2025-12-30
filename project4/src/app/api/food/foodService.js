@@ -23,14 +23,20 @@ export const foodService = {
         return response.json();
     },
     getMainDishes: async (page = 0, size = 100, language = 'VI') => {
-        const response = await fetch(`${API_URL}/food/view?isMain=true&page=${page}&size=${size}&language=${language}`, {
-            headers: {
-
-                'Content-Type': 'application/json',
-            },
-            method: 'GET',
-        });
-        return response.json();
+        try {
+            const response = await fetch(`${API_URL}/food/main-dishes?page=${page}&size=${size}&language=${language}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'GET',
+            });
+            const data = await response.json();
+            // Wrap the response to match expected format
+            return { data: data };
+        } catch (error) {
+            console.error('Error fetching main dishes:', error);
+            return { data: { content: [] } };
+        }
     },
 
     // Get foods with filtering

@@ -16,7 +16,8 @@ const router = express.Router();
 // Read routes - STAFF, MANAGER, ADMIN can view
 router.get('/view', authMiddleware, staffOrAbove, getDiscounts);
 router.get('/view/:id', authMiddleware, staffOrAbove, getDiscountById);
-router.get('/requirement-totalPrice/:price', authMiddleware, staffOrAbove, getDiscountByPrice);
+// Customer route - any authenticated user can check discount by price
+router.get('/requirement-totalPrice/:price', authMiddleware, getDiscountByPrice);
 
 // Write routes - only MANAGER and ADMIN can modify
 router.post('/', authMiddleware, managerOrAdmin, addDiscount);
