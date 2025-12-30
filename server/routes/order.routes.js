@@ -32,11 +32,11 @@ router.get('/', getOrders);
 router.get('/order-byUserId/:customerId', getOrderByCustomerId);
 router.get('/:id', getOrderById);
 router.post('/', createOrder);
-// Allow customers to update food quantity in their own orders (controller validates ownership)
+// Allow customers to update their own orders (controller validates ownership via userId)
 router.put('/order-updateFood/:id', updateFoodOrder);
+router.put('/order-Info/:id', updateOrderInfo);
 
-// Staff routes - require STAFF+ roles for order modifications
-router.put('/order-Info/:id', staffOrAbove, updateOrderInfo);
+// Staff routes - require STAFF+ roles for sensitive order modifications
 router.put('/order-delFood/:id', staffOrAbove, removeFoodFromOrder);
 router.put('/order-state/:id', staffOrAbove, updateOrderState);
 

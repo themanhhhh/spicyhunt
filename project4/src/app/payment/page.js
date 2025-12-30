@@ -380,7 +380,10 @@ const PaymentPage = () => {
 
       // Validation giống AddressManager
       if (!dataToSave.street && !dataToSave.formatted_address) {
-        alert('Vui lòng chọn hoặc nhập địa chỉ');
+        toast.error('Vui lòng chọn hoặc nhập địa chỉ', {
+          duration: 3000,
+          position: "top-center"
+        });
         return;
       }
 
@@ -581,7 +584,10 @@ const PaymentPage = () => {
       // Lấy orderId từ cookie
       const currentOrderId = getOrderId();
       if (!currentOrderId) {
-        alert('Không tìm thấy thông tin đơn hàng. Vui lòng thử lại!');
+        toast.error('Không tìm thấy thông tin đơn hàng. Vui lòng thử lại!', {
+          duration: 3000,
+          position: "top-center"
+        });
         router.push('/cart');
         return;
       }
@@ -593,13 +599,16 @@ const PaymentPage = () => {
       console.log('Default address:', defaultAddress);
       console.log('Final total:', getFinalTotal());
 
+      // Lấy địa chỉ đã chọn: ưu tiên selectedSavedAddress, sau đó defaultAddress
+      const activeAddress = selectedSavedAddress || defaultAddress;
+
       // Cập nhật thông tin đơn hàng trước khi thanh toán
       const orderUpdateData = {
         description: formData.description || `Đơn hàng #${currentOrderId} - ${new Date().toLocaleDateString('vi-VN')}`,
         totalPrice: getFinalTotal(), // Tổng tiền sau khi áp dụng discount
         paymentMethod: "VNPAY",
         discountId: selectedDiscount?.id || null,
-        addressId: defaultAddress?.id || null, // ID của địa chỉ mặc định
+        addressId: activeAddress?.id || null, // ID của địa chỉ đã chọn hoặc mặc định
         orderType: "ONLINE", // Fixed value theo API
         orderState: "HOLD", // Fixed value theo API
         phoneNumber: formData.phone,
@@ -608,7 +617,10 @@ const PaymentPage = () => {
 
       // Validation trước khi gửi
       if (!orderUpdateData.phoneNumber) {
-        alert('Vui lòng nhập số điện thoại!');
+        toast.error('Vui lòng nhập số điện thoại!', {
+          duration: 3000,
+          position: "top-center"
+        });
         return;
       }
 
@@ -633,7 +645,10 @@ const PaymentPage = () => {
           }
         } else if (!orderUpdateData.addressId && !selectedAddress) {
           // Nếu không có địa chỉ nào được chọn hoặc tạo
-          alert('Vui lòng chọn hoặc nhập địa chỉ giao hàng!');
+          toast.error('Vui lòng chọn hoặc nhập địa chỉ giao hàng!', {
+            duration: 3000,
+            position: "top-center"
+          });
           return;
         }
 
