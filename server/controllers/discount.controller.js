@@ -15,7 +15,7 @@ export const getDiscounts = async (req, res) => {
 
         const total = await Discount.countDocuments(filter);
         const discounts = await Discount.find(filter)
-            .sort({ createdAt: -1 })
+            .sort({ createdAt: -1, _id: 1 })
             .skip(Number(page) * Number(size))
             .limit(Number(size));
 
