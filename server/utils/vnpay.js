@@ -50,8 +50,8 @@ export const createPaymentUrl = ({
     const date = new Date();
     const createDate = formatDate(date);
 
-    // Expire after 15 minutes
-    const expireDate = new Date(date.getTime() + 15 * 60 * 1000);
+    // Expire after 1 hour (60 minutes)
+    const expireDate = new Date(date.getTime() + 60 * 60 * 1000);
     const expireDateStr = formatDate(expireDate);
 
     let vnp_Params = {
