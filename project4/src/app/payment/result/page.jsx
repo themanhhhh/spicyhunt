@@ -17,7 +17,7 @@ const PaymentResultPage = () => {
                 const params = new URLSearchParams(searchParams.toString());
 
                 // Call backend to verify and get result
-                const response = await fetch(`http://localhost:3001/api/order/vnpay/return?${params.toString()}`);
+                const response = await fetch(`https://spicyhunt-yqoi.onrender.com/api/order/vnpay/return?${params.toString()}`);
                 const data = await response.json();
 
                 setResult(data);

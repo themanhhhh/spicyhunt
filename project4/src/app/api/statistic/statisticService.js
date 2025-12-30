@@ -1,5 +1,5 @@
 // Local backend API URL
-const API_URL = 'http://localhost:3001/api';
+const API_URL = 'https://spicyhunt-yqoi.onrender.com/api';
 
 // Helper function để lấy accessToken từ cookie
 const getToken = () => {

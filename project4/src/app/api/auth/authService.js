@@ -1,7 +1,7 @@
 import { apiRequest } from '../../lib/api';
 
 // Local backend API URL - change to external URL for production
-const API_URL = 'http://localhost:3001/api';
+const API_URL = 'https://spicyhunt-yqoi.onrender.com/api';
 
 export const authService = {
   // Đăng nhập
