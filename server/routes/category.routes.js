@@ -3,6 +3,7 @@ import {
     getCategories,
     getAllCategories,
     getCategoryById,
+    getCategoryByIdPublic,
     addCategory,
     updateCategory,
     deleteCategory,
@@ -16,6 +17,7 @@ const router = express.Router();
 
 // Public routes (no authentication required)
 router.get('/view', getCategoryView);
+router.get('/view/:id', getCategoryByIdPublic);
 
 // Protected routes - require auth + appropriate roles
 // Read routes - STAFF, MANAGER, ADMIN can view

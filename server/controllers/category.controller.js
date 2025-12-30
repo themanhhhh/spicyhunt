@@ -224,3 +224,17 @@ export const getCategoryView = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+// Get category by ID (public - no auth required)
+export const getCategoryByIdPublic = async (req, res) => {
+    try {
+        const { language = 'VI' } = req.query;
+        const category = await Category.findById(req.params.id);
+        if (!category) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
+        res.json(getLocalizedCategory(category, language));
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
