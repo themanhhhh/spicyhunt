@@ -7,9 +7,12 @@ const normalizeId = (doc) => {
         obj.id = obj._id.toString();
     }
     // Also normalize categoryId to string for easier comparison
+    // And preserve categoryName for frontend display
     if (obj.categoryId) {
         if (typeof obj.categoryId === 'object' && obj.categoryId._id) {
-            // It's a populated object
+            // It's a populated object - extract name before converting to string
+            obj.categoryName = obj.categoryId.name || '';
+            obj.categoryNameEN = obj.categoryId.nameEN || '';
             obj.categoryId = obj.categoryId._id.toString();
         } else if (obj.categoryId.toString) {
             obj.categoryId = obj.categoryId.toString();
@@ -25,7 +28,8 @@ const getLocalizedFood = (food, language = 'VI') => {
         return {
             ...item,
             name: item.nameEN || item.name,
-            description: item.descriptionEN || item.description
+            description: item.descriptionEN || item.description,
+            categoryName: item.categoryNameEN || item.categoryName
         };
     }
     return item;
@@ -56,7 +60,7 @@ export const getFoods = async (req, res) => {
         const total = await Food.countDocuments(filter);
         const foods = await Food.find(filter)
             .populate('categoryId', 'name nameEN')
-            .sort({ order: 1, createdAt: -1 })
+            .sort({ order: 1, createdAt: -1, _id: 1 })
             .skip(Number(page) * Number(size))
             .limit(Number(size));
 
@@ -84,7 +88,7 @@ export const getMainDishes = async (req, res) => {
         const total = await Food.countDocuments(filter);
         const foods = await Food.find(filter)
             .populate('categoryId', 'name nameEN')
-            .sort({ order: 1, createdAt: -1 })
+            .sort({ order: 1, createdAt: -1, _id: 1 })
             .skip(Number(page) * Number(size))
             .limit(Number(size));
 
@@ -124,7 +128,7 @@ export const getAllFoods = async (req, res) => {
         const total = await Food.countDocuments(filter);
         const foods = await Food.find(filter)
             .populate('categoryId', 'name nameEN')
-            .sort({ order: 1, createdAt: -1 })
+            .sort({ order: 1, createdAt: -1, _id: 1 })
             .skip(Number(page) * Number(size))
             .limit(Number(size));
 
@@ -273,7 +277,7 @@ export const getFoodView = async (req, res) => {
         const total = await Food.countDocuments(filter);
         const foods = await Food.find(filter)
             .populate('categoryId', 'name nameEN')
-            .sort({ order: 1, createdAt: -1 })
+            .sort({ order: 1, createdAt: -1, _id: 1 })
             .skip(Number(page) * Number(size))
             .limit(Number(size));
 
