@@ -5,6 +5,7 @@ import { discountService } from "../../../api/discount/discountService";
 import { Pagination, Search } from "../../ui/dashboard/dashboardindex";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import LogoutButton from "../../../components/LogoutButton/LogoutButton";
+import { Loader } from "../../../components/componentsindex";
 import toast from "react-hot-toast";
 
 const Page = () => {
@@ -395,7 +396,7 @@ const Page = () => {
     return 'N/A';
   };
 
-  if (loading) return <div className={Style.loading}>Loading...</div>;
+  if (loading) return <Loader />;
 
   return (
     <div className={Style.discountt}>

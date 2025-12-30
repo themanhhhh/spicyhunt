@@ -8,6 +8,7 @@ import { useLanguageService } from "../../../hooks/useLanguageService";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useCart } from "../../../context/CartContext";
 import LogoutButton from "../../../components/LogoutButton/LogoutButton";
+import { Loader } from "../../../components/componentsindex";
 import toast from "react-hot-toast";
 
 // Utility function để extract error message
@@ -479,7 +480,7 @@ const Page = () => {
     }
   };
 
-  if (loading) return <div className={Style.loading}>Loading...</div>;
+  if (loading) return <Loader />;
 
   return (
     <div className={Style.productt}>

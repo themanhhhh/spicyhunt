@@ -5,6 +5,7 @@ import styles from "./order.module.css";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { Pagination, Search } from "../../ui/dashboard/dashboardindex";
 import { useLanguageService } from "../../../hooks/useLanguageService";
+import { Loader } from "../../../components/componentsindex";
 import toast from "react-hot-toast";
 
 const OrderPage = () => {
@@ -197,7 +198,7 @@ const OrderPage = () => {
         return methodMap[method] || method || 'N/A';
     };
 
-    if (loading) return <div className={styles.loading}>Loading...</div>;
+    if (loading) return <Loader />;
 
     return (
         <div className={styles.orderPage}>

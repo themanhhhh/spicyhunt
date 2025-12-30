@@ -4,6 +4,7 @@ import Style from "./log.module.css";
 import { getLogs, formatDate, getActionTypeColor } from "@/app/api/log/logService";
 import { Pagination } from "../../ui/dashboard/dashboardindex";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { Loader } from "../../../components/componentsindex";
 import LogoutButton from "@/app/components/LogoutButton/LogoutButton";
 
 const Page = () => {
@@ -12,12 +13,12 @@ const Page = () => {
   const [error, setError] = useState(null);
   const [metadata, setMetadata] = useState(null);
   const [itemsPerPage] = useState(10);
-  
+
   // Lấy tham số từ URL
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  
+
   // Lấy trang hiện tại từ URL (API bắt đầu từ 0)
   const currentPage = parseInt(searchParams.get("page") || "0");
 
@@ -30,10 +31,10 @@ const Page = () => {
       setLoading(true);
       const data = await getLogs(page, pageSize);
       console.log("API Response (Logs):", data); // Debug thông tin API trả về
-      
+
       if (data.content && Array.isArray(data.content)) {
         setLogs(data.content);
-        
+
         // Chuẩn bị metadata cho component Pagination
         const metadataObj = {
           page: page,
@@ -41,14 +42,14 @@ const Page = () => {
           count: data.content.length,
           totalElements: data.totalElements || data.content.length
         };
-        
+
         console.log("Pagination Metadata (Logs):", metadataObj);
         setMetadata(metadataObj);
       } else {
         console.error("Unexpected API response format:", data);
         setLogs([]);
       }
-      
+
       setError(null);
     } catch (err) {
       setError("Failed to fetch logs");
@@ -59,7 +60,7 @@ const Page = () => {
     }
   };
 
-  if (loading) return <div className={Style.loading}>Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div className={Style.error}>{error}</div>;
 
   return (
@@ -86,7 +87,7 @@ const Page = () => {
                 <td>{log.username}</td>
                 <td>{log.accountRole}</td>
                 <td>
-                  <span 
+                  <span
                     className={Style.actionType}
                     style={{ backgroundColor: getActionTypeColor(log.actionType) }}
                   >
@@ -110,7 +111,7 @@ const Page = () => {
         <div className={Style.darkBg}>
           <Pagination metadata={metadata || { page: 0, totalPages: 1, count: logs.length, totalElements: logs.length }} />
         </div>
-        </div>
+      </div>
     </div>
   );
 };

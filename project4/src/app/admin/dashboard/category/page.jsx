@@ -9,6 +9,7 @@ import Image from "next/image";
 import LogoutButton from "@/app/components/LogoutButton/LogoutButton";
 import Link from "next/link";
 import LanguageSelector from "@/app/components/LanguageSelector/LanguageSelector";
+import { Loader } from "../../../components/componentsindex";
 import toast from "react-hot-toast";
 
 const Page = () => {
@@ -393,7 +394,7 @@ const Page = () => {
     }
   };
 
-  if (loading) return <div className={Style.loading}>Loading...</div>;
+  if (loading) return <Loader />;
 
   return (
     <div className={Style.categoryy}>

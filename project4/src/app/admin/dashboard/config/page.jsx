@@ -4,6 +4,7 @@ import Style from "./config.module.css";
 import { configService } from "../../../api/config/configService";
 import { Pagination, FilterableSearch } from "../../ui/dashboard/dashboardindex";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { Loader } from "../../../components/componentsindex";
 import toast from "react-hot-toast";
 
 const Page = () => {
@@ -13,25 +14,25 @@ const Page = () => {
     if (error?.response?.data?.message) {
       return error.response.data.message;
     }
-    
+
     // Check if error object has message property directly (API response)
     if (error?.message) {
       return error.message;
     }
-    
+
     // Check if error is response object with code/status
     if (error?.code >= 400 || error?.status >= 400) {
       return error.message || `Lỗi ${error.code || error.status}`;
     }
-    
+
     // Check if error is string
     if (typeof error === 'string') {
       return error;
     }
-    
+
     // Debug log for unhandled error formats
     console.log("Unhandled error format:", error);
-    
+
     // Fallback to default message
     return defaultMessage;
   };
@@ -56,10 +57,10 @@ const Page = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  
+
   // Lấy trang hiện tại từ URL (API bắt đầu từ 0)
   const currentPage = parseInt(searchParams.get("page") || "0");
-  
+
   // Lấy các tham số lọc từ URL
   const keyFilter = searchParams.get("key") || "";
 
@@ -84,7 +85,7 @@ const Page = () => {
   // Cập nhật bộ lọc vào URL và quay về trang đầu tiên
   const updateFilters = (newFilters) => {
     const params = new URLSearchParams(searchParams);
-    
+
     // Cập nhật các tham số
     Object.entries(newFilters).forEach(([key, value]) => {
       if (value) {
@@ -93,10 +94,10 @@ const Page = () => {
         params.delete(key);
       }
     });
-    
+
     // Khi thay đổi bộ lọc, quay về trang đầu tiên
     params.set("page", "0");
-    
+
     // Cập nhật URL
     replace(`${pathname}?${params}`);
   };
@@ -105,27 +106,27 @@ const Page = () => {
     try {
       setLoading(true);
       const response = await configService.getConfig();
-      
+
       console.log("API Response (Configs):", response);
-      
+
       // Kiểm tra và xử lý dữ liệu từ API
       if (response.data && Array.isArray(response.data)) {
         let filteredConfigs = response.data;
-        
+
         // Lọc theo key nếu có
         if (key) {
-          filteredConfigs = response.data.filter(config => 
+          filteredConfigs = response.data.filter(config =>
             config.keyConfig && config.keyConfig.toLowerCase().includes(key.toLowerCase())
           );
         }
-        
+
         // Phân trang manual
         const startIndex = page * pageSize;
         const endIndex = startIndex + pageSize;
         const paginatedConfigs = filteredConfigs.slice(startIndex, endIndex);
-        
+
         setConfigs(paginatedConfigs);
-        
+
         // Sử dụng metadata từ API hoặc tạo metadata cho phân trang
         if (response.metadata) {
           setMetadata({
@@ -188,7 +189,7 @@ const Page = () => {
         keyConfig: config.keyConfig || '',
         valueConfig: config.valueConfig || ''
       });
-      
+
       setShowEditModal(true);
       toast.success(`Đang chỉnh sửa: ${config.keyConfig}`, {
         duration: 2000,
@@ -215,7 +216,7 @@ const Page = () => {
 
   const handleAddSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validation
     if (!formData.keyConfig.trim()) {
       toast.error("Key Config không được để trống!", {
@@ -234,12 +235,12 @@ const Page = () => {
 
     try {
       toast.loading("Đang tạo configuration...", { id: "add-config" });
-      
+
       const response = await configService.createConfig(formData);
-      
+
       // Debug log to see what response we get
       console.log("Create config response:", response);
-      
+
       // Check if response indicates an error
       if (response && (response.code >= 400 || response.error || response.status >= 400)) {
         const errorMessage = getErrorMessage(response, "Không thể tạo configuration. Vui lòng thử lại!");
@@ -250,13 +251,13 @@ const Page = () => {
         });
         return;
       }
-      
+
       toast.success(`Đã tạo configuration "${formData.keyConfig}" thành công!`, {
         id: "add-config",
         duration: 3000,
         position: "top-center"
       });
-      
+
       setShowAddModal(false);
       fetchConfigs(currentPage, itemsPerPage, keyFilter);
       setFormData({
@@ -276,7 +277,7 @@ const Page = () => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validation
     if (!formData.valueConfig.trim()) {
       toast.error("Value Config không được để trống!", {
@@ -288,13 +289,13 @@ const Page = () => {
 
     try {
       toast.loading("Đang cập nhật configuration...", { id: "edit-config" });
-      
+
       // Chỉ gửi valueConfig theo API spec
       const response = await configService.updateConfig(selectedConfig.id, formData.valueConfig);
-      
+
       // Debug log to see what response we get
       console.log("Update config response:", response);
-      
+
       // Check if response indicates an error
       if (response && (response.code >= 400 || response.error || response.status >= 400)) {
         const errorMessage = getErrorMessage(response, "Không thể cập nhật configuration. Vui lòng thử lại!");
@@ -305,13 +306,13 @@ const Page = () => {
         });
         return;
       }
-      
+
       toast.success(`Đã cập nhật "${selectedConfig.keyConfig}" thành công!`, {
         id: "edit-config",
         duration: 3000,
         position: "top-center"
       });
-      
+
       setShowEditModal(false);
       fetchConfigs(currentPage, itemsPerPage, keyFilter);
     } catch (err) {
@@ -328,12 +329,12 @@ const Page = () => {
   const handleDeleteConfirm = async () => {
     try {
       toast.loading("Đang xóa configuration...", { id: "delete-config" });
-      
+
       const response = await configService.deleteConfig(selectedConfig.id);
-      
+
       // Debug log to see what response we get
       console.log("Delete config response:", response);
-      
+
       // Check if response indicates an error
       if (response && (response.code >= 400 || response.error || response.status >= 400)) {
         const errorMessage = getErrorMessage(response, "Không thể xóa configuration. Vui lòng thử lại!");
@@ -344,13 +345,13 @@ const Page = () => {
         });
         return;
       }
-      
+
       toast.success(`Đã xóa "${selectedConfig.keyConfig}" thành công!`, {
         id: "delete-config",
         duration: 3000,
         position: "top-center"
       });
-      
+
       setShowDeleteModal(false);
       fetchConfigs(currentPage, itemsPerPage, keyFilter);
     } catch (err) {
@@ -364,7 +365,7 @@ const Page = () => {
     }
   };
 
-  if (loading) return <div className={Style.loading}>Loading...</div>;
+  if (loading) return <Loader />;
 
   return (
     <div className={Style.configContainer}>
@@ -372,13 +373,13 @@ const Page = () => {
         <div className={Style.top}>
           <h1>Configuration Management</h1>
           <div className={Style.topRight}>
-            <FilterableSearch 
-              placeholder="Tìm kiếm theo key config..." 
+            <FilterableSearch
+              placeholder="Tìm kiếm theo key config..."
               onChange={handleSearch}
               onSearch={handleSearch}
               value={searchTerm}
               statusFilter=""
-              onStatusChange={() => {}}
+              onStatusChange={() => { }}
               statusOptions={[]}
             />
             <button onClick={handleAdd} className={Style.addButton}>
@@ -390,7 +391,7 @@ const Page = () => {
         {/* Hiển thị kết quả tìm kiếm */}
         {searchTerm && (
           <div className={Style.searchInfo}>
-            Kết quả tìm kiếm cho: <strong>{searchTerm}</strong> | 
+            Kết quả tìm kiếm cho: <strong>{searchTerm}</strong> |
             Tìm thấy: <strong>{configs.length}</strong> config
           </div>
         )}
@@ -399,7 +400,7 @@ const Page = () => {
           <div className={Style.noData}>
             <p>Không có configuration nào được tìm thấy</p>
             {searchTerm && (
-              <button 
+              <button
                 onClick={() => {
                   setSearchTerm("");
                   updateFilters({ key: "" });
@@ -425,28 +426,28 @@ const Page = () => {
                   <td><strong>{config.keyConfig}</strong></td>
                   <td>
                     <div className={Style.configValue}>
-                      {config.valueConfig && config.valueConfig.length > 100 
-                        ? `${config.valueConfig.substring(0, 100)}...` 
+                      {config.valueConfig && config.valueConfig.length > 100
+                        ? `${config.valueConfig.substring(0, 100)}...`
                         : config.valueConfig}
                     </div>
                   </td>
                   <td>
                     <div className={Style.buttons}>
-                      <button 
+                      <button
                         className={`${Style.button} ${Style.view}`}
                         onClick={() => handleView(config)}
                         title="Xem chi tiết"
                       >
                         View
                       </button>
-                      <button 
+                      <button
                         className={`${Style.button} ${Style.edit}`}
                         onClick={() => handleEdit(config)}
                         title="Chỉnh sửa"
                       >
                         Edit
                       </button>
-                      <button 
+                      <button
                         className={`${Style.button} ${Style.delete}`}
                         onClick={() => handleDelete(config)}
                         title="Xóa"
@@ -476,7 +477,7 @@ const Page = () => {
                   <input
                     type="text"
                     value={formData.keyConfig}
-                    onChange={(e) => setFormData({...formData, keyConfig: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, keyConfig: e.target.value })}
                     required
                     placeholder="Enter configuration key"
                   />
@@ -485,16 +486,16 @@ const Page = () => {
                   <label>Value Config:</label>
                   <textarea
                     value={formData.valueConfig}
-                    onChange={(e) => setFormData({...formData, valueConfig: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, valueConfig: e.target.value })}
                     required
                     placeholder="Enter configuration value"
                   />
                 </div>
-                
+
                 <div className={Style.modalButtons}>
                   <button type="submit" className={Style.saveButton}>Add Config</button>
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className={Style.cancelButton}
                     onClick={() => {
                       setShowAddModal(false);
@@ -520,7 +521,7 @@ const Page = () => {
                   <input
                     type="text"
                     value={formData.keyConfig}
-                    onChange={(e) => setFormData({...formData, keyConfig: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, keyConfig: e.target.value })}
                     disabled
                     className={Style.disabledInput}
                   />
@@ -530,15 +531,15 @@ const Page = () => {
                   <label>Value Config:</label>
                   <textarea
                     value={formData.valueConfig}
-                    onChange={(e) => setFormData({...formData, valueConfig: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, valueConfig: e.target.value })}
                     required
                   />
                 </div>
-                
+
                 <div className={Style.modalButtons}>
                   <button type="submit" className={Style.saveButton}>Save Changes</button>
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className={Style.cancelButton}
                     onClick={() => {
                       setShowEditModal(false);
@@ -561,13 +562,13 @@ const Page = () => {
               <p>Are you sure you want to delete the configuration key: <strong>{selectedConfig?.keyConfig}</strong>?</p>
               <p className={Style.warning}>This action cannot be undone.</p>
               <div className={Style.modalButtons}>
-                <button 
+                <button
                   className={Style.deleteButton}
                   onClick={handleDeleteConfirm}
                 >
                   Delete
                 </button>
-                <button 
+                <button
                   className={Style.cancelButton}
                   onClick={() => {
                     setShowDeleteModal(false);
@@ -603,7 +604,7 @@ const Page = () => {
                 </div>
               </div>
               <div className={Style.modalButtons}>
-                <button 
+                <button
                   className={Style.cancelButton}
                   onClick={() => setShowViewModal(false)}
                 >
