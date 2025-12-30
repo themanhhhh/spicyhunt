@@ -53,7 +53,7 @@ const TableReservationHistory = () => {
     } catch (err) {
       console.error('Error fetching table reservations:', err);
       setError(err.message);
-      toast.error('Failed to load table reservation history', {
+      toast.error('Không thể tải lịch sử đặt bàn', {
         duration: 3000,
         position: "top-center"
       });
@@ -224,7 +224,7 @@ const TableReservationHistory = () => {
     return (
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2>Table Reservation History</h2>
+          <h2>Lịch Sử Đặt Bàn</h2>
         </div>
         <div className={styles.error}>
           <p>Error: {error}</p>
@@ -232,7 +232,7 @@ const TableReservationHistory = () => {
             onClick={() => window.location.reload()}
             className={styles.retryButton}
           >
-            Try Again
+            Thử lại
           </button>
         </div>
       </div>
@@ -243,12 +243,12 @@ const TableReservationHistory = () => {
     return (
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2>Table Reservation History</h2>
+          <h2>Lịch Sử Đặt Bàn</h2>
         </div>
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}>🪑</div>
-          <h3>No Reservations Yet</h3>
-          <p>You haven't made any table reservations yet. Reserve a table to enjoy our dining experience!</p>
+          <h3>Chưa Có Đặt Bàn Nào</h3>
+          <p>Bạn chưa đặt bàn nào. Hãy đặt bàn để trải nghiệm dịch vụ của chúng tôi!</p>
         </div>
       </div>
     );
@@ -257,11 +257,11 @@ const TableReservationHistory = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2>Table Reservation History</h2>
+        <h2>Lịch Sử Đặt Bàn</h2>
         <div className={styles.headerInfo}>
-          <p>View all your table reservations</p>
+          <p>Xem tất cả lịch sử đặt bàn của bạn</p>
           <div className={styles.reservationCount}>
-            Showing {startIndex + 1}-{endIndex} of {totalElements} reservations
+            Hiển thị {startIndex + 1}-{endIndex} trong tổng số {totalElements} đặt bàn
           </div>
         </div>
       </div>
@@ -272,9 +272,9 @@ const TableReservationHistory = () => {
             <div className={styles.reservationHeader}>
               <div className={styles.reservationInfo}>
                 <h3 className={styles.reservationName}>
-                  {reservation.fullName || 'Table Reservation'}
+                  {reservation.fullName || 'Đặt bàn'}
                 </h3>
-                <p className={styles.reservationId}>Reservation ID: #{reservation.id}</p>
+                <p className={styles.reservationId}>Mã đặt bàn: #{reservation.id}</p>
                 {reservation.tableName && (
                   <p className={styles.tableName}>{reservation.tableName}</p>
                 )}
@@ -287,7 +287,7 @@ const TableReservationHistory = () => {
             <div className={styles.reservationDetails}>
               {reservation.description && (
                 <div className={styles.reservationDescription}>
-                  <span className={styles.label}>Description:</span>
+                  <span className={styles.label}>Mô tả:</span>
                   <span>{reservation.description}</span>
                 </div>
               )}
@@ -295,28 +295,28 @@ const TableReservationHistory = () => {
               <div className={styles.reservationMeta}>
                 {reservation.tableName && (
                   <div className={styles.metaItem}>
-                    <span className={styles.label}>Table:</span>
+                    <span className={styles.label}>Bàn:</span>
                     <span>{reservation.tableName}</span>
                   </div>
                 )}
 
                 {reservation.orderTime && (
                   <div className={styles.metaItem}>
-                    <span className={styles.label}>Reservation Time:</span>
+                    <span className={styles.label}>Thời gian đặt:</span>
                     <span>{formatDateTime(reservation.orderTime)}</span>
                   </div>
                 )}
 
                 {reservation.periodType && (
                   <div className={styles.metaItem}>
-                    <span className={styles.label}>Period:</span>
+                    <span className={styles.label}>Khung giờ:</span>
                     <span>{reservation.periodType}</span>
                   </div>
                 )}
 
                 {reservation.phoneNumber && (
                   <div className={styles.metaItem}>
-                    <span className={styles.label}>Phone:</span>
+                    <span className={styles.label}>Điện thoại:</span>
                     <span>{reservation.phoneNumber}</span>
                   </div>
                 )}
@@ -330,7 +330,7 @@ const TableReservationHistory = () => {
 
                 {reservation.createdAt && (
                   <div className={styles.metaItem}>
-                    <span className={styles.label}>Booked At:</span>
+                    <span className={styles.label}>Ngày đặt:</span>
                     <span>{formatDateTime(reservation.createdAt)}</span>
                   </div>
                 )}
@@ -347,7 +347,7 @@ const TableReservationHistory = () => {
             {renderPagination()}
           </div>
           <div className={styles.paginationInfo}>
-            Page {currentPage} of {totalPages}
+            Trang {currentPage} / {totalPages}
             {metadata && (
               <span className={styles.apiInfo}>
                 (API: Page {metadata.page + 1} of {metadata.totalPages})

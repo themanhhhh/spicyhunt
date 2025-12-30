@@ -3,6 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import styles from './result.module.css';
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
+import { FaCheckCircle, FaTimesCircle, FaReceipt, FaHome, FaClipboardList } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const PaymentResultPage = () => {
     const searchParams = useSearchParams();
@@ -58,81 +62,105 @@ const PaymentResultPage = () => {
     if (loading) {
         return (
             <div className={styles.container}>
-                <div className={styles.loading}>
-                    <div className={styles.spinner}></div>
-                    <p>Đang xác nhận thanh toán...</p>
+                <Navbar />
+                <div className={styles.content}>
+                    <div className={styles.loading}>
+                        <div className={styles.spinner}></div>
+                        <p>Đang xác nhận thanh toán...</p>
+                    </div>
                 </div>
+                <Footer />
             </div>
         );
     }
 
     return (
         <div className={styles.container}>
-            <div className={styles.card}>
-                {result?.success ? (
-                    <>
-                        <div className={styles.iconSuccess}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                            </svg>
-                        </div>
-                        <h1 className={styles.titleSuccess}>Thanh toán thành công!</h1>
-                        <p className={styles.message}>{result.message}</p>
-                    </>
-                ) : (
-                    <>
-                        <div className={styles.iconFailed}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="15" y1="9" x2="9" y2="15"></line>
-                                <line x1="9" y1="9" x2="15" y2="15"></line>
-                            </svg>
-                        </div>
-                        <h1 className={styles.titleFailed}>Thanh toán thất bại</h1>
-                        <p className={styles.message}>{result?.message || 'Có lỗi xảy ra'}</p>
-                    </>
-                )}
+            <Navbar />
+            <div className={styles.content}>
+                <motion.div
+                    className={styles.card}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    {result?.success ? (
+                        <>
+                            <div className={styles.iconSuccess}>
+                                <FaCheckCircle size={80} />
+                            </div>
+                            <div className={styles.successBadge}>
+                                <FaCheckCircle /> Giao dịch hoàn tất
+                            </div>
+                            <h1 className={styles.titleSuccess}>Thanh toán thành công!</h1>
+                            <p className={styles.message}>{result.message}</p>
+                        </>
+                    ) : (
+                        <>
+                            <div className={styles.iconFailed}>
+                                <FaTimesCircle size={80} />
+                            </div>
+                            <div className={styles.failedBadge}>
+                                <FaTimesCircle /> Giao dịch thất bại
+                            </div>
+                            <h1 className={styles.titleFailed}>Thanh toán thất bại</h1>
+                            <p className={styles.message}>{result?.message || 'Có lỗi xảy ra trong quá trình thanh toán'}</p>
+                        </>
+                    )}
 
-                <div className={styles.details}>
-                    <h3>Chi tiết giao dịch</h3>
-                    <div className={styles.detailRow}>
-                        <span>Mã đơn hàng:</span>
-                        <strong>{result?.orderId || 'N/A'}</strong>
-                    </div>
-                    <div className={styles.detailRow}>
-                        <span>Số tiền:</span>
-                        <strong>{result?.amount ? formatCurrency(result.amount) : 'N/A'}</strong>
-                    </div>
-                    <div className={styles.detailRow}>
-                        <span>Mã giao dịch:</span>
-                        <strong>{result?.transactionNo || 'N/A'}</strong>
-                    </div>
-                    <div className={styles.detailRow}>
-                        <span>Ngân hàng:</span>
-                        <strong>{result?.bankCode || 'N/A'}</strong>
-                    </div>
-                    <div className={styles.detailRow}>
-                        <span>Thời gian:</span>
-                        <strong>{formatDate(result?.payDate)}</strong>
-                    </div>
-                </div>
+                    <motion.div
+                        className={styles.details}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3, duration: 0.5 }}
+                    >
+                        <h3><FaReceipt /> Chi tiết giao dịch</h3>
+                        <div className={styles.detailRow}>
+                            <span>Mã đơn hàng</span>
+                            <strong>{result?.orderId || 'N/A'}</strong>
+                        </div>
+                        <div className={`${styles.detailRow} ${styles.amountRow}`}>
+                            <span>Số tiền thanh toán</span>
+                            <strong>{result?.amount ? formatCurrency(result.amount) : 'N/A'}</strong>
+                        </div>
+                        <div className={styles.detailRow}>
+                            <span>Mã giao dịch VNPay</span>
+                            <strong>{result?.transactionNo || 'N/A'}</strong>
+                        </div>
+                        <div className={styles.detailRow}>
+                            <span>Ngân hàng</span>
+                            <strong>{result?.bankCode || 'N/A'}</strong>
+                        </div>
+                        <div className={styles.detailRow}>
+                            <span>Thời gian giao dịch</span>
+                            <strong>{formatDate(result?.payDate)}</strong>
+                        </div>
+                    </motion.div>
 
-                <div className={styles.actions}>
-                    <button
-                        className={styles.btnPrimary}
-                        onClick={() => router.push('/order')}
+                    <motion.div
+                        className={styles.actions}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.5 }}
                     >
-                        Xem đơn hàng
-                    </button>
-                    <button
-                        className={styles.btnSecondary}
-                        onClick={() => router.push('/')}
-                    >
-                        Về trang chủ
-                    </button>
-                </div>
+                        <button
+                            className={styles.btnPrimary}
+                            onClick={() => router.push('/profile?tab=orders')}
+                        >
+                            <FaClipboardList style={{ marginRight: '0.5rem' }} />
+                            Xem đơn hàng
+                        </button>
+                        <button
+                            className={styles.btnSecondary}
+                            onClick={() => router.push('/')}
+                        >
+                            <FaHome style={{ marginRight: '0.5rem' }} />
+                            Về trang chủ
+                        </button>
+                    </motion.div>
+                </motion.div>
             </div>
+            <Footer />
         </div>
     );
 };

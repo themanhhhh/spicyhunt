@@ -8,7 +8,7 @@ const UserInfoCard = ({ profile }) => {
   const formatDate = (timestamp) => {
     if (!timestamp) return 'N/A';
     const date = new Date(timestamp);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('vi-VN', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -30,7 +30,7 @@ const UserInfoCard = ({ profile }) => {
           )}
         </div>
         <div className={styles.userInfoBasic}>
-          <h2>{profile.fullName || 'User'}</h2>
+          <h2>{profile.fullName || 'Người dùng'}</h2>
           <div className={styles.userInfoUsername}>@{profile.username}</div>
           <div className={styles.userInfoBadge}>
             <MdSecurity className={styles.badgeIcon} />
@@ -49,12 +49,12 @@ const UserInfoCard = ({ profile }) => {
           <span className={styles.userInfoDetailValue}>{profile.email || 'N/A'}</span>
         </div>
         <div className={styles.userInfoDetailItem}>
-          <span className={styles.userInfoDetailLabel}>Phone:</span>
+          <span className={styles.userInfoDetailLabel}>Điện thoại:</span>
           <span className={styles.userInfoDetailValue}>{profile.phoneNumber || 'N/A'}</span>
         </div>
         <div className={styles.userInfoDetailItem}>
           <span className={styles.userInfoDetailLabel}>
-            <MdVerified className={styles.inlineIcon} /> Status:
+            <MdVerified className={styles.inlineIcon} /> Trạng thái:
           </span>
           <span className={`${styles.userInfoDetailValue} ${styles.userStatus}`}>
             {profile.state}
@@ -62,13 +62,13 @@ const UserInfoCard = ({ profile }) => {
         </div>
         <div className={styles.userInfoDetailItem}>
           <span className={styles.userInfoDetailLabel}>
-            <MdAccessTime className={styles.inlineIcon} /> Created:
+            <MdAccessTime className={styles.inlineIcon} /> Ngày tạo:
           </span>
           <span className={styles.userInfoDetailValue}>{formatDate(profile.createdAt)}</span>
         </div>
         <div className={styles.userInfoDetailItem}>
           <span className={styles.userInfoDetailLabel}>
-            <MdUpdate className={styles.inlineIcon} /> Updated:
+            <MdUpdate className={styles.inlineIcon} /> Cập nhật:
           </span>
           <span className={styles.userInfoDetailValue}>{formatDate(profile.updatedAt)}</span>
         </div>

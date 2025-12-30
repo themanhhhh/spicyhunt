@@ -32,7 +32,7 @@ const OrderHistory = () => {
       } catch (err) {
         console.error('Error fetching orders:', err);
         setError(err.message);
-        toast.error('Failed to load order history', {
+        toast.error('Không thể tải lịch sử đơn hàng', {
           duration: 3000,
           position: "top-center"
         });
@@ -184,7 +184,7 @@ const OrderHistory = () => {
     return (
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2>Order History</h2>
+          <h2>Lịch Sử Đơn Hàng</h2>
         </div>
         <div className={styles.error}>
           <p>Error: {error}</p>
@@ -192,7 +192,7 @@ const OrderHistory = () => {
             onClick={() => window.location.reload()}
             className={styles.retryButton}
           >
-            Try Again
+            Thử lại
           </button>
         </div>
       </div>
@@ -203,12 +203,12 @@ const OrderHistory = () => {
     return (
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2>Order History</h2>
+          <h2>Lịch Sử Đơn Hàng</h2>
         </div>
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}>📋</div>
-          <h3>No Orders Yet</h3>
-          <p>You haven't placed any orders yet. Start exploring our menu!</p>
+          <h3>Chưa Có Đơn Hàng Nào</h3>
+          <p>Bạn chưa đặt đơn hàng nào. Hãy khám phá thực đơn của chúng tôi!</p>
         </div>
       </div>
     );
@@ -219,9 +219,9 @@ const OrderHistory = () => {
       <div className={styles.header}>
         <h2>Order History</h2>
         <div className={styles.headerInfo}>
-          <p>View all your past orders</p>
+          <p>Xem tất cả đơn hàng của bạn</p>
           <div className={styles.orderCount}>
-            Showing {startIndex + 1}-{Math.min(endIndex, orders.length)} of {orders.length} orders
+            Hiển thị {startIndex + 1}-{Math.min(endIndex, orders.length)} trong tổng số {orders.length} đơn hàng
           </div>
         </div>
       </div>
@@ -232,7 +232,7 @@ const OrderHistory = () => {
             <div className={styles.orderHeader}>
               <div className={styles.orderInfo}>
                 <h3 className={styles.orderName}>{order.name}</h3>
-                <p className={styles.orderId}>Order ID: #{order.id}</p>
+                <p className={styles.orderId}>Mã đơn hàng: #{order.id}</p>
               </div>
               <div className={`${styles.orderStatus} ${getOrderStateColor(order.orderState)}`}>
                 {order.orderState}
@@ -242,41 +242,41 @@ const OrderHistory = () => {
             <div className={styles.orderDetails}>
               {order.description && (
                 <div className={styles.orderDescription}>
-                  <span className={styles.label}>Description:</span>
+                  <span className={styles.label}>Mô tả:</span>
                   <span>{order.description}</span>
                 </div>
               )}
 
               <div className={styles.orderMeta}>
                 <div className={styles.metaItem}>
-                  <span className={styles.label}>Total Price:</span>
+                  <span className={styles.label}>Tổng tiền:</span>
                   <span className={styles.price}>{formatPrice(order.totalPrice)}</span>
                 </div>
 
                 {order.totalPriceAfterDiscount !== order.totalPrice && (
                   <div className={styles.metaItem}>
-                    <span className={styles.label}>Final Price:</span>
+                    <span className={styles.label}>Thành tiền:</span>
                     <span className={styles.finalPrice}>{formatPrice(order.totalPriceAfterDiscount)}</span>
                   </div>
                 )}
 
                 {order.phoneNumber && (
                   <div className={styles.metaItem}>
-                    <span className={styles.label}>Phone:</span>
+                    <span className={styles.label}>Điện thoại:</span>
                     <span>{order.phoneNumber}</span>
                   </div>
                 )}
 
                 {order.paymentMethod && (
                   <div className={styles.metaItem}>
-                    <span className={styles.label}>Payment:</span>
+                    <span className={styles.label}>Thanh toán:</span>
                     <span>{order.paymentMethod}</span>
                   </div>
                 )}
 
                 {order.takingMethod && (
                   <div className={styles.metaItem}>
-                    <span className={styles.label}>Delivery:</span>
+                    <span className={styles.label}>Giao hàng:</span>
                     <span>{order.takingMethod}</span>
                   </div>
                 )}
@@ -293,7 +293,7 @@ const OrderHistory = () => {
             {renderPagination()}
           </div>
           <div className={styles.paginationInfo}>
-            Page {currentPage} of {totalPages}
+            Trang {currentPage} / {totalPages}
           </div>
         </div>
       )}

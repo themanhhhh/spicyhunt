@@ -31,7 +31,7 @@ const CartPage = () => {
 
   // Nếu người dùng chưa đăng nhập, không hiển thị nội dung trang
   if (!user) {
-    return <div className={styles.loading}>Redirecting to login...</div>;
+    return <div className={styles.loading}>Đang chuyển hướng đến trang đăng nhập...</div>;
   }
 
   const handleApplyDiscount = () => {
@@ -45,11 +45,11 @@ const CartPage = () => {
     if (validCodes[discountCode]) {
       setDiscountApplied(true);
       setDiscountError('');
-      toast.success('Discount code applied successfully!');
+      toast.success('Đã áp dụng mã giảm giá thành công!');
     } else {
-      setDiscountError('Invalid discount code');
+      setDiscountError('Mã giảm giá không hợp lệ');
       setDiscountApplied(false);
-      toast.error('Invalid discount code');
+      toast.error('Mã giảm giá không hợp lệ');
     }
   };
 
@@ -68,13 +68,13 @@ const CartPage = () => {
   // Xử lý checkout - kiểm tra order trong cookies và gọi updateFoodOrder nếu cần
   const handleCheckout = async () => {
     if (cartItems.length === 0) {
-      toast.error('Your cart is empty!');
+      toast.error('Giỏ hàng của bạn đang trống!');
       return;
     }
 
     // Kiểm tra xem người dùng đã đăng nhập chưa
     if (!user) {
-      toast.error('Please login to continue!');
+      toast.error('Vui lòng đăng nhập để tiếp tục!');
       router.push('/login');
       return;
     }
@@ -83,36 +83,36 @@ const CartPage = () => {
     try {
       // Kiểm tra xem đã có orderId trong cookies chưa
       const existingOrderId = getOrderId();
-      
+
       if (existingOrderId) {
         // Nếu đã có order trong cookies, gọi updateFoodOrder với cart hiện tại
         console.log('Using existing order ID from cookies:', existingOrderId);
-        
+
         const foodInfo = {
           foodInfo: cartItems.map(item => ({
             foodId: item.id,
             quantity: item.quantity
           }))
         };
-        
+
         console.log('Updating existing order with current cart:', foodInfo);
-        
+
         try {
           await updateFoodOrder(existingOrderId, foodInfo);
           console.log('Food order updated successfully');
-          
+
           // Cập nhật cart items trong cookie
           setCartItemsToCookie(cartItems);
-          
-          toast.success('Order updated with current cart!');
-          
+
+          toast.success('Đơn hàng đã được cập nhật!');
+
           // Chuyển đến payment
           router.push('/payment');
         } catch (updateError) {
           console.error('Error updating food order:', updateError);
-          toast.error('Failed to update order. Please try again!');
+          toast.error('Không thể cập nhật đơn hàng. Vui lòng thử lại!');
         }
-        
+
         return;
       }
 
@@ -126,27 +126,27 @@ const CartPage = () => {
 
       // Gọi API tạo order mới
       const response = await createOrder(foodInfo);
-      
+
       // Lấy orderId từ response
       const orderId = typeof response === 'number' ? response : response.id || response.data?.id;
-      
+
       console.log('New order created with ID:', orderId);
-      
+
       if (!orderId) {
-        throw new Error('Unable to get order ID from response');
+        throw new Error('Không thể lấy mã đơn hàng từ phản hồi');
       }
-      
+
       // Lưu orderId và cart items vào cookie
       setOrderId(orderId);
       setCartItemsToCookie(cartItems);
-      
-      toast.success('Order created successfully!');
-      
+
+      toast.success('Đã tạo đơn hàng thành công!');
+
       // Chuyển hướng đến payment
-      router.push('/payment'); 
+      router.push('/payment');
     } catch (error) {
       console.error('Checkout error:', error);
-      toast.error(error.message || 'Error creating order. Please try again!');
+      toast.error(error.message || 'Lỗi khi tạo đơn hàng. Vui lòng thử lại!');
     } finally {
       setIsCheckingOut(false);
     }
@@ -156,14 +156,14 @@ const CartPage = () => {
   return (
     <>
       <Navbar />
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className={styles.cart}
       >
         <div className={styles.cartHeader}>
-          <h1>Shopping Cart</h1>
-          <span className={styles.itemCount}>{cartItems.length} items</span>
+          <h1>Giỏ Hàng</h1>
+          <span className={styles.itemCount}>{cartItems.length} sản phẩm</span>
         </div>
 
         <div className={styles.cartContainer}>
@@ -215,29 +215,29 @@ const CartPage = () => {
             </AnimatePresence>
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className={styles.cartSummary}
           >
-            <h3>Order Summary</h3>
+            <h3>Tóm Tắt Đơn Hàng</h3>
             <div className={styles.summaryContent}>
-              
-              
+
+
               <div className={styles.summaryDivider} />
               <div className={`${styles.summaryRow} ${styles.totalRow}`}>
-                <span>Total</span>
+                <span>Tổng cộng</span>
                 <span>{finalTotal.toLocaleString()} VNĐ</span>
               </div>
-              <button 
+              <button
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
                 className={styles.checkoutButton}
               >
-                {isCheckingOut ? 'Processing...' : 'Proceed to Checkout'}
+                {isCheckingOut ? 'Đang xử lý...' : 'Tiến hành thanh toán'}
               </button>
               <Link href="/menu" className={styles.continueShopping}>
-                <FaArrowLeft /> Continue Shopping
+                <FaArrowLeft /> Tiếp tục mua sắm
               </Link>
             </div>
           </motion.div>

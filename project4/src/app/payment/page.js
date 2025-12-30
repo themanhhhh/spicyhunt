@@ -874,18 +874,18 @@ const PaymentPage = () => {
               {/* Địa chỉ lên đầu form */}
               {formData.orderType === 'SHIP' && (
                 <div className={styles.formSection}>
-                  <h2><FaMapMarkerAlt className={styles.sectionIcon} /> SHIP Address</h2>
+                  <h2><FaMapMarkerAlt className={styles.sectionIcon} /> Địa Chỉ Giao Hàng</h2>
                   {/* Hiển thị địa chỉ mặc định */}
                   {loadingAddresses ? (
-                    <div className={styles.loadingAddresses}>Loading saved addresses...</div>
+                    <div className={styles.loadingAddresses}>Đang tải địa chỉ đã lưu...</div>
                   ) : savedAddresses.length > 0 ? (
                     <div className={styles.savedAddresses}>
-                      <h3>Default Address:</h3>
+                      <h3>Địa chỉ mặc định:</h3>
                       <div className={styles.addressCard}>
                         <div className={styles.addressLabel}>
                           {getLabelIcon('HOME')}
                           <span>HOME</span>
-                          <span className={styles.defaultBadge}>Default</span>
+                          <span className={styles.defaultBadge}>Mặc định</span>
                         </div>
                         <p className={styles.addressText}>{defaultAddress?.addressDetail || 'Chưa có địa chỉ'}</p>
                       </div>
@@ -943,14 +943,14 @@ const PaymentPage = () => {
                                   <div className={styles.addressLabel}>
                                     {getLabelIcon('HOME')}
                                     <span>HOME</span>
-                                    {address.isDefault && <span className={styles.defaultBadge}>Default</span>}
+                                    {address.isDefault && <span className={styles.defaultBadge}>Mặc định</span>}
                                   </div>
                                   <p className={styles.addressText}>{address.addressDetail}</p>
                                 </div>
                               ))}
                             </div>
                           ) : (
-                            <p>No addresses found.</p>
+                            <p>Không tìm thấy địa chỉ nào.</p>
                           )}
                         </div>
                       </div>
@@ -1279,7 +1279,7 @@ const PaymentPage = () => {
           </div>
 
           <div className={styles.orderSummary}>
-            <h2>Order Summary</h2>
+            <h2>Tóm Tắt Đơn Hàng</h2>
             <div className={styles.orderItems}>
               {orderData?.foodInfos?.length > 0 ? (
                 orderData.foodInfos.map((item, index) => (
@@ -1333,28 +1333,28 @@ const PaymentPage = () => {
                   onClick={handleDiscountModalOpen}
                 >
                   <FaTag className={styles.discountIcon} />
-                  <span>Add Discount Code</span>
+                  <span>Thêm mã giảm giá</span>
                 </button>
               )}
             </div>
 
             <div className={styles.orderTotal}>
               <div className={styles.totalRow}>
-                <span>Subtotal</span>
+                <span>Tạm tính</span>
                 <span>{getOrderTotal().toLocaleString()} VNĐ</span>
               </div>
               {selectedDiscount && (
                 <div className={styles.totalRow} style={{ color: '#28a745' }}>
-                  <span>Discount ({selectedDiscount.name})</span>
+                  <span>Giảm giá ({selectedDiscount.name})</span>
                   <span>-{calculateDiscount().toLocaleString()} VNĐ</span>
                 </div>
               )}
               <div className={styles.totalRow}>
-                <span>Shipping</span>
-                <span>Free</span>
+                <span>Phí giao hàng</span>
+                <span>Miễn phí</span>
               </div>
               <div className={styles.totalRow} style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-                <span>Total</span>
+                <span>Tổng cộng</span>
                 <span>{getFinalTotal().toLocaleString()} VNĐ</span>
               </div>
 
@@ -1367,7 +1367,7 @@ const PaymentPage = () => {
           <div className={styles.modalOverlay} onClick={() => setShowDiscountModal(false)}>
             <div className={styles.discountModal} onClick={(e) => e.stopPropagation()}>
               <div className={styles.modalHeader}>
-                <h3><FaTag className={styles.sectionIcon} /> Select Discount Code</h3>
+                <h3><FaTag className={styles.sectionIcon} /> Chọn mã giảm giá</h3>
                 <button
                   className={styles.closeModal}
                   onClick={() => setShowDiscountModal(false)}
@@ -1378,7 +1378,7 @@ const PaymentPage = () => {
 
               <div className={styles.modalContent}>
                 {loading ? (
-                  <div className={styles.loadingDiscounts}>Loading discounts...</div>
+                  <div className={styles.loadingDiscounts}>Đang tải mã giảm giá...</div>
                 ) : discounts.length > 0 ? (
                   <div className={styles.discountList}>
                     {discounts.map((discount) => {
@@ -1427,7 +1427,7 @@ const PaymentPage = () => {
                     })}
                   </div>
                 ) : (
-                  <div className={styles.noDiscounts}>No discount codes available</div>
+                  <div className={styles.noDiscounts}>Không có mã giảm giá khả dụng</div>
                 )}
               </div>
             </div>

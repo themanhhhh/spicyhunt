@@ -52,7 +52,7 @@ const AddressManager = () => {
 
       setAddresses(addressList);
       if (addressList.length > 0) {
-        toast.success(`Loaded ${addressList.length} addresses`, {
+        toast.success(`Đã tải ${addressList.length} địa chỉ`, {
           duration: 2000,
           position: "top-right"
         });
@@ -63,13 +63,13 @@ const AddressManager = () => {
       const savedAddresses = localStorage.getItem('userAddresses');
       if (savedAddresses) {
         setAddresses(JSON.parse(savedAddresses));
-        toast.success('Loaded addresses from local cache', {
+        toast.success('Đã tải địa chỉ từ bộ nhớ đệm cục bộ', {
           duration: 3000,
           position: "top-center",
           icon: 'ℹ️'
         });
       } else {
-        toast.error('Failed to load addresses. Please try again later.', {
+        toast.error('Không thể tải địa chỉ. Vui lòng thử lại sau.', {
           duration: 4000,
           position: "top-center"
         });
@@ -94,7 +94,7 @@ const AddressManager = () => {
       place_id: addressData.place_id
     }));
 
-    toast.success('Address selected successfully!', {
+    toast.success('Đã chọn địa chỉ thành công!', {
       duration: 2000,
       position: "top-right"
     });
@@ -132,7 +132,7 @@ const AddressManager = () => {
 
   const handleSaveAddress = async () => {
     if (!formData.street && !formData.formatted_address) {
-      toast.error('Please select or enter an address', {
+      toast.error('Vui lòng chọn hoặc nhập một địa chỉ', {
         duration: 3000,
         position: "top-center"
       });
@@ -141,7 +141,7 @@ const AddressManager = () => {
 
     try {
       setSaving(true);
-      toast.loading('Saving address...', { id: 'save-address' });
+      toast.loading('Đang lưu địa chỉ...', { id: 'save-address' });
 
       // Combine addressDetail from fields (excluding apt)
       const addressDetail = [
@@ -178,7 +178,7 @@ const AddressManager = () => {
         await loadAddresses();
         resetForm();
         toast.success(
-          editingAddress ? 'Address updated successfully!' : 'Address saved successfully!',
+          editingAddress ? 'Đã cập nhật địa chỉ thành công!' : 'Đã lưu địa chỉ thành công!',
           {
             id: 'save-address',
             duration: 3000,
@@ -186,11 +186,11 @@ const AddressManager = () => {
           }
         );
       } else {
-        throw new Error(response.message || 'Failed to save address');
+        throw new Error(response.message || 'Không thể lưu địa chỉ');
       }
     } catch (error) {
       console.error('Error saving address:', error);
-      toast.error('Failed to save address. Please try again.', {
+      toast.error('Không thể lưu địa chỉ. Vui lòng thử lại.', {
         id: 'save-address',
         duration: 4000,
         position: "top-center"
@@ -219,7 +219,7 @@ const AddressManager = () => {
     });
     setShowAddForm(true);
 
-    toast.success(`Editing address: ${address.label}`, {
+    toast.success(`Đang chỉnh sửa địa chỉ: ${address.label}`, {
       duration: 2000,
       position: "top-right"
     });
@@ -230,15 +230,15 @@ const AddressManager = () => {
     toast((t) => (
       <div className={styles.toastConfirm}>
         <div className={styles.toastMessage}>
-          <strong>Delete Address</strong>
-          <p>Are you sure you want to delete this address?</p>
+          <strong>Xóa địa chỉ</strong>
+          <p>Bạn có chắc chắn muốn xóa địa chỉ này không?</p>
         </div>
         <div className={styles.toastActions}>
           <button
             className={styles.toastCancel}
             onClick={() => toast.dismiss(t.id)}
           >
-            Cancel
+            Hủy
           </button>
           <button
             className={styles.toastConfirmBtn}
@@ -247,7 +247,7 @@ const AddressManager = () => {
               confirmDeleteAddress(addressId);
             }}
           >
-            Delete
+            Xóa
           </button>
         </div>
       </div>
@@ -259,23 +259,23 @@ const AddressManager = () => {
 
   const confirmDeleteAddress = async (addressId) => {
     try {
-      toast.loading('Deleting address...', { id: 'delete-address' });
+      toast.loading('Đang xóa địa chỉ...', { id: 'delete-address' });
 
       const response = await addressService.deleteAddress(addressId);
       if (response.success) {
         // Reload addresses from server
         await loadAddresses();
-        toast.success('Address deleted successfully!', {
+        toast.success('Đã xóa địa chỉ thành công!', {
           id: 'delete-address',
           duration: 3000,
           position: "top-center"
         });
       } else {
-        throw new Error(response.message || 'Failed to delete address');
+        throw new Error(response.message || 'Không thể xóa địa chỉ');
       }
     } catch (error) {
       console.error('Error deleting address:', error);
-      toast.error('Failed to delete address. Please try again.', {
+      toast.error('Không thể xóa địa chỉ. Vui lòng thử lại.', {
         id: 'delete-address',
         duration: 4000,
         position: "top-center"
@@ -285,22 +285,22 @@ const AddressManager = () => {
 
   const handleSetDefault = async (addressId) => {
     try {
-      toast.loading('Setting default address...', { id: 'set-default' });
+      toast.loading('Đang đặt địa chỉ mặc định...', { id: 'set-default' });
 
       const response = await addressService.updateAddressDefault(addressId);
       if (response && response.success) {
         await loadAddresses();
-        toast.success('Default address updated successfully!', {
+        toast.success('Đã cập nhật địa chỉ mặc định thành công!', {
           id: 'set-default',
           duration: 3000,
           position: "top-center"
         });
       } else {
-        throw new Error(response.message || 'Failed to set default address');
+        throw new Error(response.message || 'Không thể đặt địa chỉ mặc định');
       }
     } catch (error) {
       console.error('Error setting default address:', error);
-      toast.error('Failed to set default address. Please try again.', {
+      toast.error('Không thể đặt địa chỉ mặc định. Vui lòng thử lại.', {
         id: 'set-default',
         duration: 4000,
         position: "top-center"
@@ -327,14 +327,14 @@ const AddressManager = () => {
   return (
     <div className={styles.addressManager}>
       <div className={styles.header}>
-        <h2>Address Management</h2>
-        <p className={styles.subtitle}>Manage your delivery addresses for easier ordering</p>
+        <h2>Quản Lý Địa Chỉ</h2>
+        <p className={styles.subtitle}>Quản lý địa chỉ giao hàng để đặt hàng nhanh hơn</p>
         <button
           className={styles.addButton}
           onClick={() => setShowAddForm(true)}
           disabled={showAddForm}
         >
-          <FaPlus /> Add New Address
+          <FaPlus /> Thêm địa chỉ mới
         </button>
       </div>
 
@@ -344,7 +344,7 @@ const AddressManager = () => {
           <div className={styles.formHeader}>
             <h3>
               <FaMapMarkerAlt />
-              {editingAddress ? 'Edit Address' : 'Add New Address'}
+              {editingAddress ? 'Chỉnh sửa địa chỉ' : 'Thêm địa chỉ mới'}
             </h3>
             <button
               className={styles.closeButton}
@@ -356,9 +356,9 @@ const AddressManager = () => {
           <div className={styles.formContent}>
             {/* Address Search */}
             <div className={styles.inputGroup}>
-              <label>Search Address</label>
+              <label>Tìm kiếm địa chỉ</label>
               <AddressAutocomplete
-                placeholder="Search for your address..."
+                placeholder="Tìm kiếm địa chỉ của bạn..."
                 onAddressSelect={handleAddressSelect}
                 value={formData.formatted_address}
                 onChange={(e) => setFormData(prev => ({ ...prev, formatted_address: e.target.value }))}
@@ -367,7 +367,7 @@ const AddressManager = () => {
 
             {/* Address Label */}
             <div className={styles.inputGroup}>
-              <label>Address Label</label>
+              <label>Nhãn địa chỉ</label>
               <div className={styles.labelSelector}>
                 <label className={styles.radioLabel}>
                   <input
@@ -378,7 +378,7 @@ const AddressManager = () => {
                     onChange={handleInputChange}
                   />
                   <span className={styles.radioCustom}>
-                    <FaHome /> Home
+                    <FaHome /> Nhà
                   </span>
                 </label>
                 <label className={styles.radioLabel}>
@@ -390,7 +390,7 @@ const AddressManager = () => {
                     onChange={handleInputChange}
                   />
                   <span className={styles.radioCustom}>
-                    <FaBriefcase /> Work
+                    <FaBriefcase /> Công ty
                   </span>
                 </label>
                 <label className={styles.radioLabel}>
@@ -402,7 +402,7 @@ const AddressManager = () => {
                     onChange={handleInputChange}
                   />
                   <span className={styles.radioCustom}>
-                    <FaHeart /> Other
+                    <FaHeart /> Khác
                   </span>
                 </label>
               </div>
@@ -410,7 +410,7 @@ const AddressManager = () => {
                 <input
                   type="text"
                   name="customLabel"
-                  placeholder="Enter custom label"
+                  placeholder="Nhập nhãn tùy chỉnh"
                   value={formData.customLabel}
                   onChange={handleInputChange}
                   className={styles.input}
@@ -422,11 +422,11 @@ const AddressManager = () => {
             {/* Address Details */}
             <div className={styles.addressDetails}>
               <div className={styles.inputGroup}>
-                <label>Street Address</label>
+                <label>Địa chỉ đường</label>
                 <input
                   type="text"
                   name="street"
-                  placeholder="Street address"
+                  placeholder="Địa chỉ đường"
                   value={formData.street}
                   onChange={handleInputChange}
                   className={styles.input}
@@ -435,11 +435,11 @@ const AddressManager = () => {
               </div>
 
               <div className={styles.inputGroup}>
-                <label>Apartment, Suite, etc. (Optional)</label>
+                <label>Căn hộ, Phòng, v.v. (Tùy chọn)</label>
                 <input
                   type="text"
                   name="apt"
-                  placeholder="Apt, Suite, Floor, etc."
+                  placeholder="Căn hộ, Phòng, Tầng, v.v."
                   value={formData.apt}
                   onChange={handleInputChange}
                   className={styles.input}
@@ -448,11 +448,11 @@ const AddressManager = () => {
 
               <div className={styles.inputRow}>
                 <div className={styles.inputGroup}>
-                  <label>City</label>
+                  <label>Thành phố</label>
                   <input
                     type="text"
                     name="city"
-                    placeholder="City"
+                    placeholder="Thành phố"
                     value={formData.city}
                     onChange={handleInputChange}
                     className={styles.input}
@@ -460,11 +460,11 @@ const AddressManager = () => {
                   />
                 </div>
                 <div className={styles.inputGroup}>
-                  <label>State/Province</label>
+                  <label>Tỉnh/Bang</label>
                   <input
                     type="text"
                     name="state"
-                    placeholder="State"
+                    placeholder="Tỉnh/Bang"
                     value={formData.state}
                     onChange={handleInputChange}
                     className={styles.input}
@@ -474,22 +474,22 @@ const AddressManager = () => {
 
               <div className={styles.inputRow}>
                 <div className={styles.inputGroup}>
-                  <label>ZIP/Postal Code</label>
+                  <label>Mã bưu điện</label>
                   <input
                     type="text"
                     name="zipCode"
-                    placeholder="ZIP Code"
+                    placeholder="Mã bưu điện"
                     value={formData.zipCode}
                     onChange={handleInputChange}
                     className={styles.input}
                   />
                 </div>
                 <div className={styles.inputGroup}>
-                  <label>Country</label>
+                  <label>Quốc gia</label>
                   <input
                     type="text"
                     name="country"
-                    placeholder="Country"
+                    placeholder="Quốc gia"
                     value={formData.country}
                     onChange={handleInputChange}
                     className={styles.input}
@@ -508,16 +508,16 @@ const AddressManager = () => {
                   onChange={handleInputChange}
                 />
                 <span className={styles.checkboxCustom}></span>
-                Set as default address
+                Đặt làm địa chỉ mặc định
               </label>
             </div>
 
             {/* Selected Address Info */}
             {selectedAddress && (
               <div className={styles.selectedAddressInfo}>
-                <h4>Selected Address Details:</h4>
-                <p><strong>Full Address:</strong> {selectedAddress.formatted_address}</p>
-                <p><strong>Coordinates:</strong> {selectedAddress.latitude.toFixed(6)}, {selectedAddress.longitude.toFixed(6)}</p>
+                <h4>Chi tiết địa chỉ đã chọn:</h4>
+                <p><strong>Địa chỉ đầy đủ:</strong> {selectedAddress.formatted_address}</p>
+                <p><strong>Tọa độ:</strong> {selectedAddress.latitude.toFixed(6)}, {selectedAddress.longitude.toFixed(6)}</p>
               </div>
             )}
 
@@ -528,7 +528,7 @@ const AddressManager = () => {
                 className={styles.cancelButton}
                 onClick={resetForm}
               >
-                <FaTimes /> Cancel
+                <FaTimes /> Hủy
               </button>
               <button
                 type="button"
@@ -537,7 +537,7 @@ const AddressManager = () => {
                 disabled={saving || (!selectedAddress && !formData.street)}
               >
                 {saving ? <FaSpinner className={styles.spinning} /> : <FaSave />}
-                {saving ? 'Saving...' : (editingAddress ? 'Update Address' : 'Save Address')}
+                {saving ? 'Đang lưu...' : (editingAddress ? 'Cập nhật địa chỉ' : 'Lưu địa chỉ')}
               </button>
             </div>
           </div>
@@ -549,13 +549,13 @@ const AddressManager = () => {
         {loading ? (
           <div className={styles.loading}>
             <FaSpinner className={styles.spinning} />
-            Loading addresses...
+            Đang tải địa chỉ...
           </div>
         ) : addresses.length === 0 ? (
           <div className={styles.emptyState}>
             <FaMapMarkerAlt className={styles.emptyIcon} />
-            <h3>No addresses saved</h3>
-            <p>Add your first address to get started with faster checkout</p>
+            <h3>Chưa có địa chỉ nào được lưu</h3>
+            <p>Thêm địa chỉ đầu tiên để thanh toán nhanh hơn</p>
           </div>
         ) : (
           <div className={styles.addressGrid}>
@@ -570,7 +570,7 @@ const AddressManager = () => {
                     <span>{address.label}</span>
                   </div>
                   {address.isDefault && (
-                    <span className={styles.defaultBadge}>Default</span>
+                    <span className={styles.defaultBadge}>Mặc định</span>
                   )}
                 </div>
 
@@ -587,7 +587,7 @@ const AddressManager = () => {
                       onClick={() => handleSetDefault(address._id || address.id)}
                       title="Set as default"
                     >
-                      Set Default
+                      Đặt mặc định
                     </button>
                   )}
                   <button
@@ -595,14 +595,14 @@ const AddressManager = () => {
                     onClick={() => handleEditAddress(address)}
                     title="Edit address"
                   >
-                    <FaEdit /> Edit
+                    <FaEdit /> Sửa
                   </button>
                   <button
                     className={`${styles.actionButton} ${styles.deleteButton}`}
                     onClick={() => handleDeleteAddress(address._id || address.id)}
                     title="Delete address"
                   >
-                    <FaTrash /> Delete
+                    <FaTrash /> Xóa
                   </button>
                 </div>
               </div>

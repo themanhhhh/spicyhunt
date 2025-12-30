@@ -42,7 +42,7 @@ const UpdateProfile = ({ profile, onProfileUpdated }) => {
       ...prev,
       [name]: value
     }));
-    
+
     // Validate field immediately
     validateField(name, value);
   };
@@ -105,16 +105,16 @@ const UpdateProfile = ({ profile, onProfileUpdated }) => {
     if (file) {
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        toast.error('Please select a valid image file', {
+        toast.error('Vui lòng chọn một file ảnh hợp lệ', {
           duration: 3000,
           position: "top-center"
         });
         return;
       }
-      
+
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        toast.error('Image size must not exceed 5MB', {
+        toast.error('Kích thước ảnh không được vượt quá 5MB', {
           duration: 3000,
           position: "top-center"
         });
@@ -122,7 +122,7 @@ const UpdateProfile = ({ profile, onProfileUpdated }) => {
       }
 
       setSelectedImage(file);
-      
+
       // Create preview
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -132,8 +132,8 @@ const UpdateProfile = ({ profile, onProfileUpdated }) => {
         }
       };
       reader.readAsDataURL(file);
-      
-      toast.success('Image selected successfully!', {
+
+      toast.success('Đã chọn ảnh thành công!', {
         duration: 2000,
         position: "top-right"
       });
@@ -145,20 +145,20 @@ const UpdateProfile = ({ profile, onProfileUpdated }) => {
 
     setUploadingImage(true);
     try {
-      toast.loading('Uploading image...', { id: 'upload-image' });
-      
+      toast.loading('Đang tải ảnh lên...', { id: 'upload-image' });
+
       const imageUrl = await uploadToPinata(selectedImage);
       setFormData(prev => ({ ...prev, imgUrl: imageUrl }));
-      
-      toast.success('Image uploaded successfully!', {
+
+      toast.success('Đã tải ảnh lên thành công!', {
         id: 'upload-image',
         duration: 2000,
         position: "top-right"
       });
-      
+
       return imageUrl;
     } catch (error) {
-      toast.error('Failed to upload image. Please try again.', {
+      toast.error('Tải ảnh lên thất bại. Vui lòng thử lại.', {
         id: 'upload-image',
         duration: 4000,
         position: "top-center"
@@ -171,7 +171,7 @@ const UpdateProfile = ({ profile, onProfileUpdated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate form before submission
     if (!validateForm()) {
       toast.error('Vui lòng kiểm tra lại thông tin!', {
@@ -182,12 +182,12 @@ const UpdateProfile = ({ profile, onProfileUpdated }) => {
     }
 
     setLoading(true);
-    
+
     try {
       toast.loading('Đang cập nhật thông tin...', { id: 'update-profile' });
-      
+
       let imageUrl = formData.imgUrl;
-      
+
       // Upload image if new image is selected
       if (selectedImage) {
         imageUrl = await uploadImage();
@@ -195,15 +195,15 @@ const UpdateProfile = ({ profile, onProfileUpdated }) => {
 
       const { fullName, phoneNumber, email } = formData;
       await authService.updateProfile(fullName, phoneNumber, email, imageUrl);
-      
+
       toast.success('Cập nhật thông tin thành công!', {
         id: 'update-profile',
         duration: 3000,
         position: "top-center"
       });
-      
+
       setSelectedImage(null);
-      
+
       if (onProfileUpdated) {
         onProfileUpdated();
       }
@@ -228,8 +228,8 @@ const UpdateProfile = ({ profile, onProfileUpdated }) => {
     setSelectedImage(null);
     setImagePreview(profile.imgUrl || '');
     toast.dismiss(); // Dismiss any active toasts
-    
-    toast.success('Form reset successfully', {
+
+    toast.success('Đã đặt lại biểu mẫu thành công', {
       duration: 2000,
       position: "top-right"
     });
@@ -317,14 +317,14 @@ const UpdateProfile = ({ profile, onProfileUpdated }) => {
             <span className={styles.successMessage}>✓ Số điện thoại hợp lệ</span>
           )}
         </div>
-        
+
         <div className={styles.formActions}>
           <button type="button" className={styles.cancelBtn} onClick={resetForm}>
             Hủy
           </button>
-          <button 
-            type="submit" 
-            className={styles.saveBtn} 
+          <button
+            type="submit"
+            className={styles.saveBtn}
             disabled={loading || uploadingImage || Object.values(errors).some(error => error !== '')}
           >
             {loading ? 'Đang lưu...' : uploadingImage ? 'Đang tải ảnh...' : 'Lưu thay đổi'}

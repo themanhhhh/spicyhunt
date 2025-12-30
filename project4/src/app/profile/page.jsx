@@ -17,18 +17,18 @@ import { Loader } from '@/app/components/componentsindex';
 import toast from 'react-hot-toast';
 
 const menu = [
-  { label: 'My Info', desc: 'View your detailed profile information', icon: <MdInfoOutline className={styles.menuIcon} /> },
-  { label: 'Account', desc: 'Manage your public profile and private information', icon: <MdPersonOutline className={styles.menuIcon} /> },
-  { label: 'Security', desc: 'Manage your password and 2-step verification preferences', icon: <MdLockOutline className={styles.menuIcon} /> },
-  { label: 'Addresses', desc: 'Save and manage your delivery addresses', icon: <MdLocationOn className={styles.menuIcon} /> },
-  { label: 'Order History', desc: 'View all your past orders and order status', icon: <MdHistory className={styles.menuIcon} /> },
-  { label: 'Table Reservations', desc: 'View all your table reservations and booking history', icon: <MdTableRestaurant className={styles.menuIcon} /> },
+  { label: 'Thông tin cá nhân', desc: 'Xem thông tin hồ sơ chi tiết của bạn', icon: <MdInfoOutline className={styles.menuIcon} /> },
+  { label: 'Tài khoản', desc: 'Quản lý hồ sơ công khai và thông tin cá nhân', icon: <MdPersonOutline className={styles.menuIcon} /> },
+  { label: 'Bảo mật', desc: 'Quản lý mật khẩu và xác thực 2 bước', icon: <MdLockOutline className={styles.menuIcon} /> },
+  { label: 'Địa chỉ', desc: 'Lưu và quản lý địa chỉ giao hàng', icon: <MdLocationOn className={styles.menuIcon} /> },
+  { label: 'Lịch sử đơn hàng', desc: 'Xem tất cả đơn hàng và trạng thái', icon: <MdHistory className={styles.menuIcon} /> },
+  { label: 'Lịch sử đặt bàn', desc: 'Xem tất cả đặt bàn và lịch sử đặt chỗ', icon: <MdTableRestaurant className={styles.menuIcon} /> },
 ];
 
 const Profile = () => {
   // Use hook to fetch profile
   const { profile: contextProfile } = usePageProfileFetch('Profile Page');
-  
+
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
@@ -49,13 +49,13 @@ const Profile = () => {
     try {
       const data = await authService.getProfile();
       setProfile(data);
-      toast.success('Profile refreshed successfully!', {
+      toast.success('Đã tải lại hồ sơ thành công!', {
         duration: 2000,
         position: "top-right"
       });
     } catch (err) {
       console.error('Error refreshing profile:', err);
-      toast.error('Failed to load user information. Please try again.', {
+      toast.error('Không thể tải thông tin người dùng. Vui lòng thử lại.', {
         duration: 4000,
         position: "top-center"
       });
@@ -88,54 +88,54 @@ const Profile = () => {
     <div className={styles.settings}>
       <Navbar />
       <div className={styles.settingsLayout}>
-      {/* Sidebar */}
-      <aside className={styles.sidebar}>
-        <div className={styles.menuTitle}>Settings</div>
-        <ul className={styles.menuList}>
-          {menu.map((item, idx) => {
-            // Show all items except Order History and Table Reservations for admin/manager
-            if ((isAdmin || isManager) && (item.label === 'Order History' || item.label === 'Table Reservations')) {
-              return null;
-            }
-            // Show all items for regular users
-            return (
-              <li
-                key={item.label}
-                className={activeTab === idx ? styles.active : ''}
-                onClick={() => setActiveTab(idx)}
-              >
-                {item.icon}
-                <div>
-                  <div className={styles.menuLabel}>{item.label}</div>
-                  <div className={styles.menuDesc}>{item.desc}</div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </aside>
+        {/* Sidebar */}
+        <aside className={styles.sidebar}>
+          <div className={styles.menuTitle}>Cài đặt</div>
+          <ul className={styles.menuList}>
+            {menu.map((item, idx) => {
+              // Show all items except Order History and Table Reservations for admin/manager
+              if ((isAdmin || isManager) && (item.label === 'Lịch sử đơn hàng' || item.label === 'Lịch sử đặt bàn')) {
+                return null;
+              }
+              // Show all items for regular users
+              return (
+                <li
+                  key={item.label}
+                  className={activeTab === idx ? styles.active : ''}
+                  onClick={() => setActiveTab(idx)}
+                >
+                  {item.icon}
+                  <div>
+                    <div className={styles.menuLabel}>{item.label}</div>
+                    <div className={styles.menuDesc}>{item.desc}</div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </aside>
 
-      {/* Main content */}
-      <main className={styles.content}>
-        {activeTab === 0 && (
-          <UserInfoCard profile={profile} />
-        )}
-        {activeTab === 1 && (
-          <UpdateProfile profile={profile} onProfileUpdated={refreshProfile} />
-        )}
-        {activeTab === 2 && (
-          <ChangePassword />
-        )}
-        {activeTab === 3 && (
-          <AddressManager />
-        )}
-        {activeTab === 4 && isUser && (
-          <OrderHistory />
-        )}
-        {activeTab === 5 && isUser && (
-          <TableReservationHistory />
-        )}
-      </main>
+        {/* Main content */}
+        <main className={styles.content}>
+          {activeTab === 0 && (
+            <UserInfoCard profile={profile} />
+          )}
+          {activeTab === 1 && (
+            <UpdateProfile profile={profile} onProfileUpdated={refreshProfile} />
+          )}
+          {activeTab === 2 && (
+            <ChangePassword />
+          )}
+          {activeTab === 3 && (
+            <AddressManager />
+          )}
+          {activeTab === 4 && isUser && (
+            <OrderHistory />
+          )}
+          {activeTab === 5 && isUser && (
+            <TableReservationHistory />
+          )}
+        </main>
       </div>
       <Footer />
     </div>
