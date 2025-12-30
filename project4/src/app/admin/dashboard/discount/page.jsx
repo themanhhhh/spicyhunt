@@ -149,7 +149,16 @@ const Page = () => {
       endDate: endDate,
       status: 'ACTIVE'
     });
-    setFormErrors({});
+    setFormErrors({
+      name: '',
+      description: '',
+      discountPercent: '',
+      discountAmount: '',
+      minTotalPrice: '',
+      maxDiscount: '',
+      startDate: '',
+      endDate: ''
+    });
     setShowAddModal(true);
   };
 
@@ -173,7 +182,16 @@ const Page = () => {
       endDate: endDate,
       status: discount.status || 'ACTIVE'
     });
-    setFormErrors({});
+    setFormErrors({
+      name: '',
+      description: '',
+      discountPercent: '',
+      discountAmount: '',
+      minTotalPrice: '',
+      maxDiscount: '',
+      startDate: '',
+      endDate: ''
+    });
     setShowEditModal(true);
   };
 
@@ -197,7 +215,16 @@ const Page = () => {
   };
 
   const validateForm = () => {
-    const errors = {};
+    const errors = {
+      name: '',
+      description: '',
+      discountPercent: '',
+      discountAmount: '',
+      minTotalPrice: '',
+      maxDiscount: '',
+      startDate: '',
+      endDate: ''
+    };
 
     if (!formData.name.trim()) {
       errors.name = 'Tên mã giảm giá là bắt buộc';
@@ -488,7 +515,7 @@ const Page = () => {
                       min="0"
                       max="100"
                       value={formData.discountPercent}
-                      onChange={(e) => setFormData({ ...formData, discountPercent: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, discountPercent: Number(e.target.value) })}
                       className={formErrors.discountPercent ? Style.errorInput : ''}
                     />
                     {formErrors.discountPercent && <span className={Style.errorMessage}>{formErrors.discountPercent}</span>}
@@ -499,7 +526,7 @@ const Page = () => {
                       type="number"
                       min="0"
                       value={formData.discountAmount}
-                      onChange={(e) => setFormData({ ...formData, discountAmount: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, discountAmount: Number(e.target.value) })}
                       className={formErrors.discountAmount ? Style.errorInput : ''}
                     />
                     {formErrors.discountAmount && <span className={Style.errorMessage}>{formErrors.discountAmount}</span>}
@@ -512,7 +539,7 @@ const Page = () => {
                       type="number"
                       min="0"
                       value={formData.minTotalPrice}
-                      onChange={(e) => setFormData({ ...formData, minTotalPrice: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, minTotalPrice: Number(e.target.value) })}
                       className={formErrors.minTotalPrice ? Style.errorInput : ''}
                     />
                     {formErrors.minTotalPrice && <span className={Style.errorMessage}>{formErrors.minTotalPrice}</span>}
@@ -523,7 +550,7 @@ const Page = () => {
                       type="number"
                       min="0"
                       value={formData.maxDiscount}
-                      onChange={(e) => setFormData({ ...formData, maxDiscount: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, maxDiscount: Number(e.target.value) })}
                     />
                   </div>
                 </div>
@@ -604,7 +631,7 @@ const Page = () => {
                       min="0"
                       max="100"
                       value={formData.discountPercent}
-                      onChange={(e) => setFormData({ ...formData, discountPercent: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, discountPercent: Number(e.target.value) })}
                       className={formErrors.discountPercent ? Style.errorInput : ''}
                     />
                     {formErrors.discountPercent && <span className={Style.errorMessage}>{formErrors.discountPercent}</span>}
@@ -615,7 +642,7 @@ const Page = () => {
                       type="number"
                       min="0"
                       value={formData.discountAmount}
-                      onChange={(e) => setFormData({ ...formData, discountAmount: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, discountAmount: Number(e.target.value) })}
                       className={formErrors.discountAmount ? Style.errorInput : ''}
                     />
                     {formErrors.discountAmount && <span className={Style.errorMessage}>{formErrors.discountAmount}</span>}
@@ -628,7 +655,7 @@ const Page = () => {
                       type="number"
                       min="0"
                       value={formData.minTotalPrice}
-                      onChange={(e) => setFormData({ ...formData, minTotalPrice: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, minTotalPrice: Number(e.target.value) })}
                       className={formErrors.minTotalPrice ? Style.errorInput : ''}
                     />
                     {formErrors.minTotalPrice && <span className={Style.errorMessage}>{formErrors.minTotalPrice}</span>}
@@ -639,7 +666,7 @@ const Page = () => {
                       type="number"
                       min="0"
                       value={formData.maxDiscount}
-                      onChange={(e) => setFormData({ ...formData, maxDiscount: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, maxDiscount: Number(e.target.value) })}
                     />
                   </div>
                 </div>

@@ -38,7 +38,7 @@ app.use(cors({
       'https://spicyhunt-yofh-jqb7m8emx-themanhhhhs-projects.vercel.app'
     ];
 
-    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app') || origin.endsWith('.vercel.live')) {
       return callback(null, true);
     }
     return callback(null, true); // Allow all for now

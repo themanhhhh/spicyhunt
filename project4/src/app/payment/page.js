@@ -4,17 +4,17 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../context/CartContext';
 import { discountService } from '../api/discount/discountService';
-import { 
-  createOrder, 
-  getOrderId, 
-  clearOrderId, 
-  getOrderById, 
-  createPayment, 
-  checkPaymentStatus, 
-  updateOrderInfo, 
+import {
+  createOrder,
+  getOrderId,
+  clearOrderId,
+  getOrderById,
+  createPayment,
+  checkPaymentStatus,
+  updateOrderInfo,
   removeFoodFromOrder,
   getCartItemsFromCookie,
-  clearCartItemsFromCookie 
+  clearCartItemsFromCookie
 } from '../api/order/orderService';
 import { addressService } from '../api/address/addressService';
 import AddressAutocomplete from '../components/AddressAutocomplete/AddressAutocomplete';
@@ -56,7 +56,7 @@ const PaymentPage = () => {
   const [orderData, setOrderData] = useState(null);
   const [loadingOrder, setLoadingOrder] = useState(false);
   const [saving, setSaving] = useState(false);
-  
+
   // Address form data giống AddressManager
   const [addressFormData, setAddressFormData] = useState({
     label: 'HOME',
@@ -81,17 +81,17 @@ const PaymentPage = () => {
     orderState: 'PAYMENT', // HOLD, PROCESSING, COMPLETED, CANCELLED
     takingMethod: 'SHIP', // Phương thức nhận hàng riêng biệt
     notes: '', // Thêm trường ghi chú
-    
+
     // Customer information
     fullName: '',
     email: '',
     phone: '',
-    
+
     // Payment information
     cardNumber: '',
     expiryDate: '',
     cvv: '',
-    
+
     // Address information (will be populated by AddressAutocomplete)
     address: '',
     city: '',
@@ -102,10 +102,10 @@ const PaymentPage = () => {
 
   useEffect(() => {
     fetchSavedAddresses();
-    
+
     // Debug: Log formData to check if description and takingMethod are initialized
     console.log('Initial formData:', formData);
-    
+
     // Log current orderId if exists
     const currentOrderId = getOrderId();
     if (currentOrderId) {
@@ -137,7 +137,7 @@ const PaymentPage = () => {
     try {
       setLoadingAddresses(true);
       const response = await addressService.getUserAddresses();
-      
+
       // Kiểm tra lỗi từ response
       if (response && (response.code >= 400 || response.error || response.status >= 400)) {
         const errorMessage = getErrorMessage(response, "Không thể tải danh sách địa chỉ");
@@ -149,7 +149,7 @@ const PaymentPage = () => {
         setShowAddressForm(true);
         return;
       }
-      
+
       let addresses = [];
       if (response && Array.isArray(response)) {
         addresses = response;
@@ -157,7 +157,7 @@ const PaymentPage = () => {
         addresses = response.data;
       }
       setSavedAddresses(addresses);
-      
+
       // If no saved addresses and no address form shown, show the form
       if (addresses.length === 0) {
         setShowAddressForm(true);
@@ -184,7 +184,7 @@ const PaymentPage = () => {
       const total = getOrderTotal();
       const response = await discountService.getDiscountByPrice(total);
       console.log('Order total for discount calculation:', total);
-      
+
       // Kiểm tra lỗi từ response
       if (response && (response.code >= 400 || response.error || response.status >= 400)) {
         const errorMessage = getErrorMessage(response, "Không thể tải danh sách mã giảm giá");
@@ -195,7 +195,7 @@ const PaymentPage = () => {
         setDiscounts([]);
         return;
       }
-      
+
       if (response.data && Array.isArray(response.data)) {
         setDiscounts(response.data);
         console.log("Discounts loaded:", response.data.length);
@@ -221,7 +221,7 @@ const PaymentPage = () => {
       console.log('Fetching order data for ID:', orderId);
       const response = await getOrderById(orderId);
       console.log('Order data response:', response);
-      
+
       // Kiểm tra lỗi từ response
       if (response && (response.code >= 400 || response.error || response.status >= 400)) {
         const errorMessage = getErrorMessage(response, "Không thể tải thông tin đơn hàng");
@@ -233,11 +233,11 @@ const PaymentPage = () => {
         setOrderData(null);
         return;
       }
-      
+
       console.log('Order total price:', response?.totalPrice);
       console.log('Order food infos:', response?.foodInfos);
       setOrderData(response);
-      
+
       if (response) {
         console.log("Order data loaded:", response);
       }
@@ -259,7 +259,7 @@ const PaymentPage = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log('Form input changed:', name, '=', value); // Debug log
-    
+
     // Validate phone number
     if (name === 'phone') {
       // Chỉ cho phép nhập số
@@ -272,7 +272,7 @@ const PaymentPage = () => {
       }));
       return;
     }
-    
+
     setFormData(prev => ({
       ...prev,
       [name]: value,
@@ -299,7 +299,7 @@ const PaymentPage = () => {
       latitude: addressData.latitude,
       longitude: addressData.longitude
     }));
-    
+
     // Cập nhật addressFormData giống AddressManager
     setAddressFormData(prev => ({
       ...prev,
@@ -318,6 +318,11 @@ const PaymentPage = () => {
   const handleSavedAddressSelect = (address) => {
     setSelectedSavedAddress(address);
     // Parse the address details from the addressDetail string
+    // Add null check to prevent TypeError
+    if (!address || !address.addressDetail) {
+      console.warn('Address or addressDetail is undefined');
+      return;
+    }
     const addressParts = address.addressDetail.split(' | ');
     let parsedAddress = {
       label: 'HOME',
@@ -369,10 +374,10 @@ const PaymentPage = () => {
   const saveNewAddress = async (addressData = null) => {
     try {
       setSaving(true);
-      
+
       // Sử dụng addressFormData nếu có, nếu không thì dùng addressData
       const dataToSave = addressData || addressFormData;
-      
+
       // Validation giống AddressManager
       if (!dataToSave.street && !dataToSave.formatted_address) {
         alert('Vui lòng chọn hoặc nhập địa chỉ');
@@ -412,19 +417,19 @@ const PaymentPage = () => {
             'https://ipapi.co/json/',
             'https://httpbin.org/ip'
           ];
-          
+
           for (const service of ipServices) {
             try {
               const controller = new AbortController();
               const timeoutId = setTimeout(() => controller.abort(), 3000);
-              
-              const response = await fetch(service, { 
-                signal: controller.signal 
+
+              const response = await fetch(service, {
+                signal: controller.signal
               });
               clearTimeout(timeoutId);
-              
+
               const data = await response.json();
-              
+
               // Xử lý format khác nhau của các service
               const ip = data.ip || data.origin || data.query;
               if (ip) {
@@ -436,7 +441,7 @@ const PaymentPage = () => {
               continue;
             }
           }
-          
+
           // Fallback IP nếu tất cả service đều fail
           console.warn('All IP services failed, using fallback IP');
           return '127.0.0.1';
@@ -447,7 +452,7 @@ const PaymentPage = () => {
       };
 
       const clientIP = await getClientIP();
-      
+
       const newAddress = {
         addressDetail: formatAddressDetail(),
         addressIp: clientIP,
@@ -457,7 +462,7 @@ const PaymentPage = () => {
       console.log('Creating address with data:', newAddress);
 
       const response = await addressService.createAddress(newAddress);
-      
+
       // Kiểm tra lỗi từ response
       if (response && (response.code >= 400 || response.error || response.status >= 400)) {
         const errorMessage = getErrorMessage(response, "Không thể tạo địa chỉ mới");
@@ -467,7 +472,7 @@ const PaymentPage = () => {
         });
         throw new Error(errorMessage);
       }
-      
+
       if (response) {
         console.log('Address created successfully:', response);
         toast.success('Đã tạo địa chỉ mới thành công!', {
@@ -517,7 +522,7 @@ const PaymentPage = () => {
       alert(`Discount not applicable. Minimum order value of ${discount.discountRequirement.valueRequirement.toLocaleString()} VNĐ required.`);
       return;
     }
-    
+
     setSelectedDiscount(discount);
     setDiscountCode(discount.name);
     setShowDiscountModal(false);
@@ -530,9 +535,9 @@ const PaymentPage = () => {
 
   const calculateDiscount = () => {
     if (!selectedDiscount || selectedDiscount.applyState === 'INAPPLICABLE') return 0;
-    
+
     const subtotal = getOrderTotal();
-    
+
     // Sử dụng totalPriceAfterDiscount để tính discount
     const discountAmount = subtotal - selectedDiscount.totalPriceAfterDiscount;
     return Math.max(0, discountAmount);
@@ -544,7 +549,7 @@ const PaymentPage = () => {
     console.log('orderData:', orderData);
     console.log('orderData.totalPrice:', orderData?.totalPrice);
     console.log('cartTotal:', getCartTotal());
-    
+
     // Nếu có orderData, sử dụng totalPrice từ orderData
     if (orderData && orderData.totalPrice) {
       console.log('Using order total:', orderData.totalPrice);
@@ -562,7 +567,7 @@ const PaymentPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    
+
     try {
       // Validate phone number
       if (formData.phone.length !== 10) {
@@ -587,7 +592,7 @@ const PaymentPage = () => {
       console.log('Selected discount:', selectedDiscount);
       console.log('Default address:', defaultAddress);
       console.log('Final total:', getFinalTotal());
-      
+
       // Cập nhật thông tin đơn hàng trước khi thanh toán
       const orderUpdateData = {
         description: formData.description || `Đơn hàng #${currentOrderId} - ${new Date().toLocaleDateString('vi-VN')}`,
@@ -609,7 +614,7 @@ const PaymentPage = () => {
 
       // Xử lý địa chỉ cho SHIP
       let finalAddressId = orderUpdateData.addressId;
-      
+
       if (formData.orderType === 'SHIP') {
         if (!orderUpdateData.addressId && selectedAddress) {
           // Nếu chưa có addressId nhưng đã chọn địa chỉ từ autocomplete, tạo địa chỉ mới
@@ -631,7 +636,7 @@ const PaymentPage = () => {
           alert('Vui lòng chọn hoặc nhập địa chỉ giao hàng!');
           return;
         }
-        
+
         // Cập nhật addressId trong orderUpdateData
         if (finalAddressId) {
           orderUpdateData.addressId = finalAddressId;
@@ -643,9 +648,9 @@ const PaymentPage = () => {
       // Cập nhật thông tin đơn hàng
       try {
         toast.loading("Đang cập nhật thông tin đơn hàng...", { id: "update-order" });
-        
+
         const updateResponse = await updateOrderInfo(currentOrderId, orderUpdateData);
-        
+
         // Kiểm tra lỗi từ updateResponse
         if (updateResponse && (updateResponse.code >= 400 || updateResponse.error || updateResponse.status >= 400)) {
           const errorMessage = getErrorMessage(updateResponse, "Không thể cập nhật thông tin đơn hàng");
@@ -674,14 +679,14 @@ const PaymentPage = () => {
         // Tiếp tục với payment dù update order info thất bại
         console.log('Continuing with payment despite order update failure...');
       }
-      
+
       // Gọi API tạo thanh toán VNPay
       toast.loading("Đang tạo thanh toán VNPay...", { id: "create-payment" });
-      
+
       const paymentResponse = await createPayment(currentOrderId);
-      
+
       console.log('Payment response:', paymentResponse);
-      
+
       // Kiểm tra lỗi từ paymentResponse
       if (paymentResponse && (paymentResponse.code >= 400 || paymentResponse.error || paymentResponse.status >= 400)) {
         const errorMessage = getErrorMessage(paymentResponse, "Không thể tạo thanh toán");
@@ -692,7 +697,7 @@ const PaymentPage = () => {
         });
         return;
       }
-      
+
       // Kiểm tra response
       if (paymentResponse.code === '00' && paymentResponse.paymentUrl) {
         toast.success('Tạo thanh toán thành công! Đang chuyển hướng...', {
@@ -702,7 +707,7 @@ const PaymentPage = () => {
         });
         // Chuyển hướng trực tiếp đến VNPay (không mở cửa sổ mới)
         window.location.href = paymentResponse.paymentUrl;
-        
+
       } else {
         // Xử lý lỗi
         const errorMessage = paymentResponse.message || 'Có lỗi xảy ra khi tạo thanh toán!';
@@ -712,7 +717,7 @@ const PaymentPage = () => {
           position: "top-center"
         });
       }
-      
+
     } catch (error) {
       console.error('Error creating payment:', error);
       const errorMessage = getErrorMessage(error, 'Có lỗi xảy ra khi tạo thanh toán. Vui lòng thử lại!');
@@ -740,9 +745,9 @@ const PaymentPage = () => {
   const handleSetDefaultAddress = async (addressId) => {
     try {
       toast.loading("Đang cập nhật địa chỉ mặc định...", { id: "update-default-address" });
-      
+
       const response = await addressService.updateAddressDefault(addressId);
-      
+
       // Kiểm tra lỗi từ response
       if (response && (response.code >= 400 || response.error || response.status >= 400)) {
         const errorMessage = getErrorMessage(response, "Không thể cập nhật địa chỉ mặc định");
@@ -753,13 +758,13 @@ const PaymentPage = () => {
         });
         return;
       }
-      
+
       toast.success('Đã cập nhật địa chỉ mặc định thành công!', {
         id: "update-default-address",
         duration: 3000,
         position: "top-center"
       });
-      
+
       await fetchSavedAddresses();
       setShowAddressListModal(false);
     } catch (error) {
@@ -783,10 +788,10 @@ const PaymentPage = () => {
       const currentOrderId = getOrderId();
       if (currentOrderId) {
         toast.loading("Đang hủy đơn hàng...", { id: "cancel-order" });
-        
+
         // Lấy cartItems từ cookies
         const cartItemsFromCookie = getCartItemsFromCookie();
-        
+
         if (cartItemsFromCookie && cartItemsFromCookie.length > 0) {
           const foodInfo = {
             foodInfo: cartItemsFromCookie.map(item => ({
@@ -794,15 +799,15 @@ const PaymentPage = () => {
               quantity: item.quantity
             }))
           };
-          
+
           // Gọi API để xóa food khỏi order
           await removeFoodFromOrder(currentOrderId, foodInfo);
-          
+
           // Xóa cookies
           clearOrderId();
           clearCartItemsFromCookie();
           clearCart(); // Xóa cart trong context
-          
+
           toast.success('Đã hủy đơn hàng thành công!', {
             id: "cancel-order",
             duration: 3000,
@@ -810,7 +815,7 @@ const PaymentPage = () => {
           });
         }
       }
-      
+
       // Chuyển về trang cart
       router.push('/cart');
     } catch (error) {
@@ -838,7 +843,7 @@ const PaymentPage = () => {
   return (
     <>
       <Navbar />
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className={styles.paymentPage}
@@ -867,7 +872,7 @@ const PaymentPage = () => {
                           <span>HOME</span>
                           <span className={styles.defaultBadge}>Default</span>
                         </div>
-                        <p className={styles.addressText}>{defaultAddress.addressDetail}</p>
+                        <p className={styles.addressText}>{defaultAddress?.addressDetail || 'Chưa có địa chỉ'}</p>
                       </div>
                       <div className={styles.addressActions}>
                         <button
@@ -957,7 +962,7 @@ const PaymentPage = () => {
                           </button>
                         )}
                       </div>
-                      
+
                       {/* Address Search */}
                       <div className={styles.inputGroup}>
                         <label className={styles.fieldLabel}>Tìm kiếm địa chỉ:</label>
@@ -1024,7 +1029,7 @@ const PaymentPage = () => {
                         )}
                       </div>
 
-                     
+
 
                       {/* Default Address Checkbox */}
                       <div className={styles.checkboxGroup}>
@@ -1039,7 +1044,7 @@ const PaymentPage = () => {
                           Đặt làm địa chỉ mặc định
                         </label>
                       </div>
-                      
+
                       {/* Selected Address Info */}
                       {selectedAddress && (
                         <div className={styles.selectedAddressInfo}>
@@ -1051,7 +1056,7 @@ const PaymentPage = () => {
 
                       {/* Form Actions */}
                       <div className={styles.formActions}>
-                        <button 
+                        <button
                           type="button"
                           className={styles.cancelButton}
                           onClick={() => {
@@ -1061,7 +1066,7 @@ const PaymentPage = () => {
                         >
                           <FaTimes /> Hủy
                         </button>
-                        <button 
+                        <button
                           type="button"
                           className={styles.saveButton}
                           onClick={async () => {
@@ -1079,7 +1084,7 @@ const PaymentPage = () => {
                           {saving ? 'Đang lưu...' : 'Lưu địa chỉ'}
                         </button>
                       </div>
-                      
+
                       {!selectedAddress && !addressFormData.street && (
                         <div className={styles.addressHint}>
                           <p>💡 Gợi ý: Sử dụng tìm kiếm địa chỉ hoặc nhập thủ công các trường bên trên</p>
@@ -1104,7 +1109,7 @@ const PaymentPage = () => {
                         {orderData?.name || `Đơn hàng #${getOrderId() || 'NEW'} - ${new Date().toLocaleDateString('vi-VN')}`}
                       </span>
                     </div>
-                    
+
                     <div className={styles.inputGroup}>
                       <label className={styles.fieldLabel}>Phương thức nhận hàng:</label>
                       <div className={styles.takingMethodOptions}>
@@ -1128,7 +1133,7 @@ const PaymentPage = () => {
                             </div>
                           </label>
                         </div>
-                        
+
                         <div className={styles.radioOption}>
                           <input
                             type="radio"
@@ -1149,7 +1154,7 @@ const PaymentPage = () => {
                             </div>
                           </label>
                         </div>
-                        
+
                         <div className={styles.radioOption}>
                           <input
                             type="radio"
@@ -1172,8 +1177,8 @@ const PaymentPage = () => {
                         </div>
                       </div>
                     </div>
-                    
-                    
+
+
                     <div className={styles.inputGroup}>
                       <label className={styles.fieldLabel}>Ghi chú đặc biệt:</label>
                       <textarea
@@ -1236,20 +1241,20 @@ const PaymentPage = () => {
               </div>
 
               {/* Payment Details */}
-              
+
 
               <div className={styles.formActions}>
-                <button 
-                  type="button" 
-                  className={styles.cancelPaymentButton} 
+                <button
+                  type="button"
+                  className={styles.cancelPaymentButton}
                   onClick={handleCancelPayment}
                   disabled={submitting}
                 >
                   Hủy đơn hàng
                 </button>
-                <button 
-                  type="submit" 
-                  className={styles.payButton} 
+                <button
+                  type="submit"
+                  className={styles.payButton}
                   disabled={submitting}
                 >
                   {submitting ? 'Đang xử lý...' : 'Thanh toán'}
@@ -1291,8 +1296,8 @@ const PaymentPage = () => {
                       <FaTag className={styles.discountIcon} />
                       <span>{selectedDiscount.name}</span>
                     </div>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={removeDiscount}
                       className={styles.removeDiscountBtn}
                     >
@@ -1300,14 +1305,14 @@ const PaymentPage = () => {
                     </button>
                   </div>
                   <div className={styles.discountValue}>
-                    {selectedDiscount.valueType === 'PERCENT' 
+                    {selectedDiscount.valueType === 'PERCENT'
                       ? `${selectedDiscount.value}% OFF`
                       : `${selectedDiscount.value.toLocaleString()} VNĐ OFF`
                     }
                   </div>
                 </div>
               ) : (
-                <button 
+                <button
                   type="button"
                   className={styles.addDiscountBtn}
                   onClick={handleDiscountModalOpen}
@@ -1337,7 +1342,7 @@ const PaymentPage = () => {
                 <span>Total</span>
                 <span>{getFinalTotal().toLocaleString()} VNĐ</span>
               </div>
-              
+
             </div>
           </div>
         </div>
@@ -1348,14 +1353,14 @@ const PaymentPage = () => {
             <div className={styles.discountModal} onClick={(e) => e.stopPropagation()}>
               <div className={styles.modalHeader}>
                 <h3><FaTag className={styles.sectionIcon} /> Select Discount Code</h3>
-                <button 
+                <button
                   className={styles.closeModal}
                   onClick={() => setShowDiscountModal(false)}
                 >
                   <FaTimes />
                 </button>
               </div>
-              
+
               <div className={styles.modalContent}>
                 {loading ? (
                   <div className={styles.loadingDiscounts}>Loading discounts...</div>
@@ -1363,13 +1368,13 @@ const PaymentPage = () => {
                   <div className={styles.discountList}>
                     {discounts.map((discount) => {
                       const isApplicable = discount.applyState === 'APPLICABLE';
-                      
+
                       return (
-                        <div 
-                          key={discount.id} 
+                        <div
+                          key={discount.id}
                           className={`${styles.discountCard} ${!isApplicable ? styles.discountCardDisabled : ''}`}
                           onClick={() => isApplicable && handleDiscountSelect(discount)}
-                          style={{ 
+                          style={{
                             opacity: isApplicable ? 1 : 0.5,
                             cursor: isApplicable ? 'pointer' : 'not-allowed'
                           }}
@@ -1383,7 +1388,7 @@ const PaymentPage = () => {
                           </div>
                           <div className={styles.discountDetails}>
                             <span className={styles.discountValue}>
-                              {discount.valueType === 'PERCENT' 
+                              {discount.valueType === 'PERCENT'
                                 ? `${discount.value}% OFF`
                                 : `${discount.value.toLocaleString()} VNĐ OFF`
                               }
@@ -1414,9 +1419,9 @@ const PaymentPage = () => {
           </div>
         )}
       </motion.div>
-      
 
-      
+
+
       <Footer />
     </>
   );

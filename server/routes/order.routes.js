@@ -32,11 +32,12 @@ router.get('/', getOrders);
 router.get('/order-byUserId/:customerId', getOrderByCustomerId);
 router.get('/:id', getOrderById);
 router.post('/', createOrder);
+// Allow customers to update food quantity in their own orders (controller validates ownership)
+router.put('/order-updateFood/:id', updateFoodOrder);
 
 // Staff routes - require STAFF+ roles for order modifications
 router.put('/order-Info/:id', staffOrAbove, updateOrderInfo);
 router.put('/order-delFood/:id', staffOrAbove, removeFoodFromOrder);
-router.put('/order-updateFood/:id', staffOrAbove, updateFoodOrder);
 router.put('/order-state/:id', staffOrAbove, updateOrderState);
 
 // Admin/Manager route - view all orders
