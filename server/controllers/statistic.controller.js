@@ -1,4 +1,5 @@
 import Order from '../models/Order.js';
+import User from '../models/User.js';
 import ExcelJS from 'exceljs';
 
 // Get revenue statistics
@@ -14,77 +15,120 @@ export const getRevenue = async (req, res) => {
         const end = new Date(endDate);
         end.setHours(23, 59, 59, 999);
 
-        // Get orders in date range
-        const orders = await Order.find({
+        // Get orders in date range - only count COMPLETED, PAID, DELIVERED orders for revenue
+        const allOrders = await Order.find({
             createdAt: { $gte: start, $lte: end }
-        }).populate('items.foodId', 'name nameEN price');
+        });
 
-        // Calculate statistics
-        const totalOrders = orders.length;
-        const completedOrders = orders.filter(o =>
+        const completedOrders = allOrders.filter(o =>
             ['COMPLETED', 'PAID', 'DELIVERED'].includes(o.orderState)
         );
-        const totalRevenue = completedOrders.reduce((sum, o) => sum + o.finalAmount, 0);
-        const totalDiscount = completedOrders.reduce((sum, o) => sum + o.discountAmount, 0);
 
-        // Order count by status
-        const ordersByStatus = {};
-        orders.forEach(order => {
-            ordersByStatus[order.orderState] = (ordersByStatus[order.orderState] || 0) + 1;
-        });
+        // Calculate total statistics
+        const totalRevenue = completedOrders.reduce((sum, o) => sum + (o.finalAmount || 0), 0);
 
-        // Top selling foods
-        const foodSales = {};
+        // Get unique users who made orders in the period (monthly active users approximation)
+        const activeUserIds = new Set(completedOrders.map(o => o.userId?.toString()).filter(Boolean));
+
+        // Order counts by type (based on deliveryAddress or payment method)
+        let countOrderDineIn = 0;
+        let countOrderShip = 0;
+        let countOrderTakeAway = 0;
+        let countOrderOnline = 0;
+        let countOrderOffline = 0;
+
         completedOrders.forEach(order => {
-            order.items.forEach(item => {
-                const foodId = item.foodId?._id?.toString() || item.foodId?.toString();
-                const foodName = item.foodId?.name || 'Unknown';
-                if (!foodSales[foodId]) {
-                    foodSales[foodId] = {
-                        name: foodName,
-                        quantity: 0,
-                        revenue: 0
-                    };
-                }
-                foodSales[foodId].quantity += item.quantity;
-                foodSales[foodId].revenue += item.price * item.quantity;
-            });
+            // Count by delivery type
+            if (order.deliveryAddress) {
+                countOrderShip++;
+            } else {
+                countOrderDineIn++;
+            }
+
+            // Count by payment method
+            if (order.paymentMethod === 'VNPAY' || order.paymentMethod === 'MOMO') {
+                countOrderOnline++;
+            } else {
+                countOrderOffline++;
+            }
         });
 
-        const topFoods = Object.values(foodSales)
-            .sort((a, b) => b.quantity - a.quantity)
-            .slice(0, 10);
+        // Daily breakdown
+        const dailyStats = {};
 
-        // Daily revenue breakdown
-        const dailyRevenue = {};
+        // Initialize all dates in range
+        const currentDate = new Date(start);
+        while (currentDate <= end) {
+            const dateKey = currentDate.toISOString().split('T')[0];
+            dailyStats[dateKey] = {
+                daily: dateKey,
+                dailyActiveUser: 0,
+                countOrder: 0,
+                countRevenue: 0,
+                countOrderDineIn: 0,
+                countOrderShip: 0,
+                countOrderTakeAway: 0,
+                countOrderOnline: 0,
+                countOrderOffline: 0,
+                userIds: new Set()
+            };
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        // Fill in order data
         completedOrders.forEach(order => {
             const dateKey = order.createdAt.toISOString().split('T')[0];
-            if (!dailyRevenue[dateKey]) {
-                dailyRevenue[dateKey] = { date: dateKey, orders: 0, revenue: 0 };
+            if (dailyStats[dateKey]) {
+                dailyStats[dateKey].countOrder++;
+                dailyStats[dateKey].countRevenue += order.finalAmount || 0;
+
+                // Track unique users per day
+                if (order.userId) {
+                    dailyStats[dateKey].userIds.add(order.userId.toString());
+                }
+
+                // Count by type
+                if (order.deliveryAddress) {
+                    dailyStats[dateKey].countOrderShip++;
+                } else {
+                    dailyStats[dateKey].countOrderDineIn++;
+                }
+
+                if (order.paymentMethod === 'VNPAY' || order.paymentMethod === 'MOMO') {
+                    dailyStats[dateKey].countOrderOnline++;
+                } else {
+                    dailyStats[dateKey].countOrderOffline++;
+                }
             }
-            dailyRevenue[dateKey].orders += 1;
-            dailyRevenue[dateKey].revenue += order.finalAmount;
         });
 
-        const dailyBreakdown = Object.values(dailyRevenue).sort((a, b) =>
-            new Date(a.date) - new Date(b.date)
-        );
+        // Convert to array and calculate daily active users
+        const statisticDailies = Object.values(dailyStats)
+            .map(day => ({
+                daily: day.daily,
+                dailyActiveUser: day.userIds.size,
+                countOrder: day.countOrder,
+                countRevenue: day.countRevenue,
+                countOrderDineIn: day.countOrderDineIn,
+                countOrderShip: day.countOrderShip,
+                countOrderTakeAway: day.countOrderTakeAway,
+                countOrderOnline: day.countOrderOnline,
+                countOrderOffline: day.countOrderOffline
+            }))
+            .sort((a, b) => new Date(a.daily) - new Date(b.daily));
 
         res.json({
-            startDate,
-            endDate,
-            summary: {
-                totalOrders,
-                completedOrders: completedOrders.length,
-                totalRevenue,
-                totalDiscount,
-                averageOrderValue: completedOrders.length > 0
-                    ? Math.round(totalRevenue / completedOrders.length)
-                    : 0
+            statisticTotal: {
+                monthlyActiveUser: activeUserIds.size,
+                countOrder: completedOrders.length,
+                countRevenue: totalRevenue,
+                countOrderDineIn,
+                countOrderShip,
+                countOrderTakeAway,
+                countOrderOnline,
+                countOrderOffline
             },
-            ordersByStatus,
-            topFoods,
-            dailyBreakdown
+            statisticDailies
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

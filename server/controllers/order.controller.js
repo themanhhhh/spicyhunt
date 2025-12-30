@@ -392,6 +392,27 @@ export const vnpayReturn = async (req, res) => {
         // Parse response
         const result = vnpay.parseResponseCode(responseCode);
 
+        // Update order status if checksum is valid (fallback for when IPN is not received)
+        if (isValidChecksum) {
+            const order = await Order.findById(orderId);
+            if (order && order.orderState !== 'PAID' && order.orderState !== 'COMPLETED') {
+                if (result.success && responseCode === '00') {
+                    // Payment successful - update to PAID
+                    order.orderState = 'PAID';
+                    order.paymentTransactionNo = transactionNo;
+                    order.paidAt = new Date();
+                    await order.save();
+                    console.log(`[vnpayReturn] Order ${orderId} updated to PAID. TransactionNo: ${transactionNo}`);
+                } else if (responseCode !== '00') {
+                    // Payment failed
+                    order.orderState = 'FAILED';
+                    order.paymentTransactionNo = transactionNo;
+                    await order.save();
+                    console.log(`[vnpayReturn] Order ${orderId} updated to FAILED. ResponseCode: ${responseCode}`);
+                }
+            }
+        }
+
         // Return result data (frontend will handle display)
         res.json({
             success: isValidChecksum && result.success,
